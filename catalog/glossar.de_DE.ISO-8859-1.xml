@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="glossar" package_version="0.3d" locale="de_DE" charset="ISO-8859-1">
+
+  <msg key="Add_New_Glossar">Neuen Glossar hinzufügen</msg>
+  <msg key="Add_New_Translation">Neue Übersetzung hinzufügen</msg>
+  <msg key="glossar_comment">Kommentar</msg>
+  <msg key="glossar_creation_user">Erstellt von</msg>
+  <msg key="glossar_description">Kommentar</msg>
+  <msg key="glossar_dont_text">Nicht verwenden</msg>
+  <msg key="glossar_Edit">Bearbeiten</msg>
+  <msg key="glossar_id">Glossar Nr.</msg>
+  <msg key="glossar_New">Neu</msg>
+  <msg key="glossar_New2">Neu</msg>
+  <msg key="glossar_New_lekture">Neues Lektorat</msg>
+  <msg key="glossar_New_term">Neuer Ausdruck</msg>
+  <msg key="glossar_New_translation">Neue Uuml;bersetzung</msg>
+  <msg key="glossar_singel_text">Ausdruck</msg>
+  <msg key="glossar_single_category">Sprache</msg>
+  <msg key="glossar_source_category">Ausgangssprache</msg>
+  <msg key="glossar_source_category_header">Sprache</msg>
+  <msg key="glossar_source_text">Ausgangsausdruck</msg>
+  <msg key="glossar_target_category">Zielsprache</msg>
+  <msg key="glossar_target_text">Zielausdruck</msg>
+  <msg key="glossar_term_edit">Edit</msg>
+  <msg key="glossar_term_nr">Ausdruck Nr.</msg>
+  <msg key="glossar_title">Titel</msg>
+  <msg key="New_Glossar">Neuer Glossar</msg>
+  <msg key="New_Lecture">Neues Glossar</msg>
+  <msg key="New_Translation">Neue Übersetzung</msg>
+  <msg key="None">Keine Glossare vorhanden!</msg>
+  <msg key="term_None">Keine Ausdruuml;ke vorhanden!</msg>
+</message_catalog>

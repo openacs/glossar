@@ -1,0 +1,25 @@
+
+       SELECT  crr.revision_id as term_id, cr.parent_id as glossar_id , crr.description , glt.source_text , glt.target_text , glt.dont_text , aco.modifying_user , aco.last_modified , p.first_names , p.last_name
+      FROM gl_glossar_terms glt, cr_items cr, cr_revisions crr, acs_objects aco , persons p 
+      WHERE cr.latest_revision = crr.revision_id
+      AND crr.revision_id = glt.term_id
+      AND glt.term_id = aco.object_id
+      AND aco.modifying_user = p.person_id		
+      AND cr.parent_id = :glossar_id
+        [template::list::filter_where_clauses -and -name gl_term]
+	AND [template::list::page_where_clause -name gl_term]
+	[template::list::orderby_clause -orderby -name gl_term]
+
+
+
+	first_names  {
+	    label {[_ glossar.glossar_creation_user_first_names]}
+	    link_url_eval {[export_vars -base "/user" {glossar_id gl_translation_p modifying_user}]}
+	}
+	last_name {
+	    label {[_ glossar.glossar_creation_user_last_name]}
+	    link_url_eval {[export_vars -base "/user" {glossar_id gl_translation_p modifying_user}]}
+	}
+	last_modified {
+	    label {[_ glossar.glossar_creation_date]}
+	} 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<message_catalog package_key="glossar" package_version="0.3d" locale="en_US" charset="ISO-8859-1">
+
+  <msg key="Add_New_Glossar">Add New Glossar</msg>
+  <msg key="Add_new_Glossar">Add new Glossar</msg>
+  <msg key="Add_New_Translation">Add New Translation</msg>
+  <msg key="Add_New_translation">Add New Translation</msg>
+  <msg key="Add_new_Translation">Add new Translation</msg>
+  <msg key="Comment">Comment</msg>
+  <msg key="Delete">Delete selected</msg>
+  <msg key="Edit_Glossar">Edit Glossar</msg>
+  <msg key="Files">Files</msg>
+  <msg key="files">Files</msg>
+  <msg key="glossar_comment">Comment</msg>
+  <msg key="glossar_creation_user">Creation User</msg>
+  <msg key="glossar_description">Comment</msg>
+  <msg key="glossar_dont_text">Don't use</msg>
+  <msg key="glossar_Edit">Edit</msg>
+  <msg key="glossar_first_names">First Name</msg>
+  <msg key="glossar_Format_CSV">Get CSV</msg>
+  <msg key="glossar_Format_Normal">Normal View</msg>
+  <msg key="glossar_id">Glossar Nr.</msg>
+  <msg key="glossar_last_modified">Last modified</msg>
+  <msg key="glossar_last_name">Sir Name</msg>
+  <msg key="glossar_New">New</msg>
+  <msg key="glossar_New2">New</msg>
+  <msg key="glossar_New_lekture">New Lecture</msg>
+  <msg key="glossar_New_term">New Term</msg>
+  <msg key="glossar_New_translation">New Translation</msg>
+  <msg key="glossar_no_label"></msg>
+  <msg key="glossar_singel_text">Term</msg>
+  <msg key="glossar_single_category">Language</msg>
+  <msg key="glossar_source_category">Source Language</msg>
+  <msg key="glossar_source_category_header">Language</msg>
+  <msg key="glossar_source_text">Source Term</msg>
+  <msg key="glossar_target_category">Target Language</msg>
+  <msg key="glossar_target_text">Target Term</msg>
+  <msg key="glossar_term_edit">Edit</msg>
+  <msg key="glossar_term_nr">Term Nr.</msg>
+  <msg key="glossar_title">Title</msg>
+  <msg key="New_Glossar">New Glossar</msg>
+  <msg key="New_Lecture">New Glossar</msg>
+  <msg key="New_Translation">New Translation</msg>
+  <msg key="None">No Glossars exist!</msg>
+  <msg key="term_None">No Terms found!</msg>
+  <msg key="Title">Title</msg>
+  <msg key="Type">Type</msg>
+  <msg key="Update">Update selected</msg>
+  <msg key="Updated_By">Updated by</msg>
+  <msg key="Updated_On">Updated on</msg>
+  <msg key="Upload_More">More Files</msg>
+</message_catalog>
