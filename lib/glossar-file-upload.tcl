@@ -117,12 +117,12 @@ template::list::create \
     -key item_id \
     -elements {
 	file {
-	    label {File}
+	    label "[_ glossar.File]"
 	    display_col title
 	    link_url_eval $file_url
 	}
 	rename {
-	    label {Rename}
+	    label "[_ glossar.Rename]"
 	    display_template {<input name="rename.@files.item_id@" value="@files.title@" size="30">
 	    }
 	}

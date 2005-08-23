@@ -23,8 +23,8 @@ ad_page_contract {
 } -errors {
 }
 
-set context "glossar term add"
-set title "Add a Term to a Glossar"
+set context "[_ glossar.glossar_term_add]"
+set title "[_ glossar.Add_a_Term_to_a_Glossar]"
 
 # Get customer_id if exist
 if {[info exists term_id ]} {

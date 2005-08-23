@@ -19,8 +19,8 @@ ad_page_contract {
 } -errors {
 }
 
-set context "Edit Term"
-set title "Edit Term"
+set context "[_ glossar.Edit_Term]"
+set title $context
 
 # create search clause
 set where_clause "WHERE glossar_id = :glossar_id "

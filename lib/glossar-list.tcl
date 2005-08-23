@@ -196,6 +196,6 @@ db_multirow -extend {source_category target_category gl_translation_p glossar_ed
     set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id}]"
 } if_no_rows {
 
-
+    
 }
 }

@@ -1,5 +1,5 @@
 <master>
-  <property name="title">Glossar Files</property>
+  <property name="title">#glossar.Glossar_Files#</property>
   <property name="context">glossar-file-upload</property>
 
 

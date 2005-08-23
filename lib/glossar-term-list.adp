@@ -1,6 +1,6 @@
 
 <form method=get name=term-list-search  action=glossar-term-list>
-  Search:<br />
+  #glossar.Search#:<br />
   <input type=text name=searchterm value="@searchterm@" size="12" />
  @hidden_vars;noquote@ 
  <input type=submit name=go value=Go >
