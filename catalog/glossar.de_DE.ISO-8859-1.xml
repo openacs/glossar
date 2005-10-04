@@ -2,18 +2,32 @@
 <message_catalog package_key="glossar" package_version="0.3d" locale="de_DE" charset="ISO-8859-1">
 
   <msg key="Add_New_Glossar">Neuen Glossar hinzufügen</msg>
+  <msg key="Add_new_Glossar">Neues Glossar hinzufügen</msg>
   <msg key="Add_New_Translation">Neue Übersetzung hinzufügen</msg>
+  <msg key="Add_New_translation">Neue Übersetzung hinzufügen</msg>
+  <msg key="Add_new_Translation">Neue Übersetzung hinzufügen</msg>
+  <msg key="Comment">Kommentar</msg>
+  <msg key="Delete">Ausgewählte löschen</msg>
+  <msg key="Edit_Glossar">Glossar editieren</msg>
+  <msg key="Files">Dateien</msg>
+  <msg key="files">Dateien</msg>
   <msg key="glossar_comment">Kommentar</msg>
   <msg key="glossar_creation_user">Erstellt von</msg>
   <msg key="glossar_description">Kommentar</msg>
   <msg key="glossar_dont_text">Nicht verwenden</msg>
   <msg key="glossar_Edit">Bearbeiten</msg>
+  <msg key="glossar_first_names">Vorname</msg>
+  <msg key="glossar_Format_CSV">Als CSV laden</msg>
+  <msg key="glossar_Format_Normal">Normale Ansicht</msg>
   <msg key="glossar_id">Glossar Nr.</msg>
+  <msg key="glossar_last_modified">Zuletzt geändert</msg>
+  <msg key="glossar_last_name">Nachname</msg>
   <msg key="glossar_New">Neu</msg>
   <msg key="glossar_New2">Neu</msg>
   <msg key="glossar_New_lekture">Neues Lektorat</msg>
   <msg key="glossar_New_term">Neuer Ausdruck</msg>
   <msg key="glossar_New_translation">Neue Uuml;bersetzung</msg>
+  <msg key="glossar_no_label"></msg>
   <msg key="glossar_singel_text">Ausdruck</msg>
   <msg key="glossar_single_category">Sprache</msg>
   <msg key="glossar_source_category">Ausgangssprache</msg>
@@ -21,12 +35,22 @@
   <msg key="glossar_source_text">Ausgangsausdruck</msg>
   <msg key="glossar_target_category">Zielsprache</msg>
   <msg key="glossar_target_text">Zielausdruck</msg>
+  <msg key="glossar_term_add">Ausdruck hinzufügen</msg>
   <msg key="glossar_term_edit">Edit</msg>
   <msg key="glossar_term_nr">Ausdruck Nr.</msg>
   <msg key="glossar_title">Titel</msg>
+  <msg key="Glossars">Glossare</msg>
+  <msg key="index">index</msg>
+  <msg key="lt_Add_a_Term_to_a_Gloss">Einen Ausdruck zum Glossar hinzufügen</msg>
   <msg key="New_Glossar">Neuer Glossar</msg>
   <msg key="New_Lecture">Neues Glossar</msg>
   <msg key="New_Translation">Neue Übersetzung</msg>
   <msg key="None">Keine Glossare vorhanden!</msg>
-  <msg key="term_None">Keine Ausdruuml;ke vorhanden!</msg>
+  <msg key="term_None">Keine Ausdrücke vorhanden!</msg>
+  <msg key="Title">Name des Glossar</msg>
+  <msg key="Type">Typ</msg>
+  <msg key="Update">Ausgewählte aktualisieren</msg>
+  <msg key="Updated_By">Aktualisiert von</msg>
+  <msg key="Updated_On">Aktualisiert am</msg>
+  <msg key="Upload_More">Weitere Dateien</msg>
 </message_catalog>
