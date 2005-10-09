@@ -7,6 +7,10 @@
 <!-- @cvs-id $Id$ -->
 
 <queryset>
+  <rdbms>
+    <type>postgresql</type>
+    <version>7.2</version>
+  </rdbms>
 
 <fullquery name="gl_glossar">
     <querytext>  
@@ -19,9 +23,5 @@ case when gl.target_category_id is null then 0 else 1 end as sort_key
       [template::list::orderby_clause -orderby -name gl_glossar]
     </querytext>
 </fullquery>
+
 </queryset>
-  <rdbms>
-    <type>postgresql</type>
-    <version>7.2</version>
-  </rdbms>
-  
