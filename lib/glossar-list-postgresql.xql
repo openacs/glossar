@@ -24,4 +24,15 @@ case when gl.target_category_id is null then 0 else 1 end as sort_key
     </querytext>
 </fullquery>
 
+<fullquery name="get_files_count">
+   <querytext>
+	select 
+		count(ci.item_id)
+	from 
+		cr_items ci
+    	where 
+		ci.parent_id = :glossar_id
+   </querytext>
+</fullquery>
+
 </queryset>
