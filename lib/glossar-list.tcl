@@ -35,8 +35,8 @@ set glossar_id "0"
 
 set gl_translation_p 0
 
-#if {![exists_and_not_null owner_id]} {
-#    set owner_id 499
+#if {![exists_and_not_null owner_id]} {  
+#    set owner_id 499  
 #}
 
 ns_log notice "OWNER_ID $owner_id"
@@ -138,7 +138,7 @@ template::list::create \
 	    display_template "<a href=\"@gl_glossar.edit_url@\">[_ acs-kernel.common_Edit]</a>"
 	}	
 	glossar_files {
-	    display_template "<a href=\"@gl_glossar.files_url@\">[_ glossar.Files]</a>"
+	    display_template "<a href=\"@gl_glossar.files_url@\">[_ glossar.Files]</a> (@gl_glossar.files_count@)"
 	}	
 
     } -actions $actions -sub_class narrow \
@@ -181,12 +181,13 @@ template::list::create \
 
 
 
-db_multirow -extend {source_category target_category gl_translation_p glossar_edit glossar_files files_url edit_url title_url} gl_glossar gl_glossar  {} {
+db_multirow -extend {source_category target_category gl_translation_p glossar_edit glossar_files files_url edit_url title_url files_count} gl_glossar gl_glossar  {} {
     if {![empty_string_p $target_category_id]} {
 	set gl_translation_p 1
     } else {
 	set gl_translation_p 0
     }
+    set files_count [db_string get_files_count { } -default 0]
     set glossar_edit "[_ glossar.glossar_Edit]"
     set glossar_files "[_ glossar.files]"
     set source_category "[category::get_name $source_category_id]"
