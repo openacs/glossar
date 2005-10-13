@@ -18,7 +18,31 @@ foreach optional_param {page orderby format customer_id} {
     }
 }
 
+# Get glossar info
+set glossar_info [db_1row get_glossar_info { }]
 
+set glossar_language [category::get_name $source_category_id]
+set glossar_target_lan [category::get_name $target_category_id]
+
+if {[empty_string_p $glossar_language] } {
+    set glossar_language "<div align=\"center\"> - - - - - - - - -</div>"
+}
+
+if {[empty_string_p $glossar_target_lan] } {
+    set glossar_target_lan "<div align=\"center\"> - - - - - - - - -</div>"
+}
+
+# get all the files
+set files [list]
+db_foreach get_files { } {
+    lappend files "<a href=\"download/?file_id=$item_id\" title=\"$name\">$title</a>"
+}
+
+if {[empty_string_p $files] } {
+    set files "<div align=\"center\"> - - - - - - - - -</div>"
+} else {
+    set files [join $files ",&nbsp;&nbsp;"]
+}
 
 if {![info exists format]} {
     set format "normal"

@@ -37,6 +37,39 @@
     </querytext>
 </fullquery>
 
+<fullquery name="get_glossar_info">
+    <querytext>
+    select 
+           g.object_id, 
+           g.title as glossar_title, 
+           g.description as glossar_comment,
+           g.source_category_id,
+           g.target_category_id
+    from 
+           gl_glossarsx g, 
+           cr_items i
+    where 
+           g.context_id = :glossar_id
+           and i.item_id = g.context_id
+           and i.latest_revision = g.object_id
+    </querytext>
+</fullquery>
+
+<fullquery name="get_files">
+    <querytext>
+	select 
+		ci.item_id,
+   		cr.title,
+    		ci.name
+    	from 
+		cr_items ci, 
+		cr_revisions cr
+    	where 
+		ci.parent_id = :glossar_id
+    		and ci.live_revision = cr.revision_id
+    </querytext>
+</fullquery>
+
 </queryset>
   <rdbms>
     <type>postgresql</type>
