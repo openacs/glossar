@@ -15,6 +15,10 @@ ad_page_contract {
     {format "normal"}
 } 
 
+set owner_id [ad_conn user_id]
+
+set package_id [ad_conn package_id]
+set admin_p [permission::permission_p -object_id $package_id -party_id $owner_id -privilege "admin"]
 
 
 
