@@ -39,19 +39,19 @@ acs_object::get -object_id $owner_id -array owner
 set package_id $owner(package_id)
 
 
-set source_tree_id [category_tree::get_id "#acs-translations.cat_tree_wieners_from#"]
-set target_tree_id [category_tree::get_id "#acs-translations.cat_tree_wieners_to#"]
+set from_object_id [db_string get_from_default_object { }]
+set to_object_id [db_string get_to_default_object { }]
+
+# We get the mapped category tree's to show in the form
+set source_tree_id [lindex [lindex [category_tree::get_mapped_trees $from_object_id] 0] 0]
+set target_tree_id [lindex [lindex [category_tree::get_mapped_trees $to_object_id] 0] 0]
 
 
 ad_form -name glossar-add -export {owner_id package_id gl_translation_p customer_id} -form {
     {glossar_id:key}
     {title:text(text) {label "[_ glossar.Title]"}  }
     {description:text(textarea),optional {label "[_ glossar.Comment]"} {html{rows 4 cols 30} }}
-
-
 } 
-
-
 
 
 if {$gl_translation_p == 1} {
@@ -66,7 +66,6 @@ if {$gl_translation_p == 1} {
 
 
 } else {
-
 
     ad_form -extend -name glossar-add -form {
     
@@ -89,14 +88,7 @@ ad_form -extend -name glossar-add \
     set title ""
 } -edit_request {
 
-    db_1row get_glossar {
-	SELECT crr.title , crr.description  , gl.source_category_id , gl.target_category_id , gl.owner_id 
-	FROM gl_glossars gl, cr_items cr, cr_revisions crr 
-	WHERE cr.latest_revision = crr.revision_id 
-	AND crr.revision_id = gl.glossar_id 
-	AND cr.item_id = :glossar_id
-    }
-
+    db_1row get_glossar { }
 
 } -new_data {
     
