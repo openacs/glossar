@@ -7,20 +7,21 @@
     <initial-install-p>f</initial-install-p>
     <singleton-p>t</singleton-p>
     
-    <version name="0.3d1" url="http://openacs.org/repository/download/apm/glossar-0.3d1.apm">
+    <version name="0.3d2" url="http://openacs.org/repository/download/apm/glossar-0.3d2.apm">
         <owner url="mailto:bjoern_kiesbye@web.de">Bjoern Kiesbye</owner>
         <owner url="mailto:sussdorff@sussdorff.org">Malte Sussdorff</owner>
         <summary>Glossars , translations for specific terms, and terms that shouldn't be used.   </summary>
-        <release-date>2005-07-14</release-date>
+        <release-date>2005-10-17</release-date>
         <vendor url="http://www.cognovis.de">Cognovis</vendor>
         <description format="text/plain">Glossars , translations for specific terms, and terms that shouldn't be used.   </description>
         <maturity>0</maturity>
 
-        <provides url="glossar" version="0.3d1"/>
+        <provides url="glossar" version="0.3d2"/>
 
         <callbacks>
             <callback type="after-install"  proc="gl_glossar::install::create_install"/>
             <callback type="after-instantiate"  proc="gl_glossar::install::package_instantiate"/>
+            <callback type="after-upgrade"  proc="gl_glossar::install::package_upgrade"/>
         </callbacks>
         <parameters>
         <!-- No version parameters -->
