@@ -181,7 +181,7 @@ db_multirow -extend {file_url extension} -unclobber files select_files "select c
 [template::list::orderby_clause \
      -orderby \
      -name "files"]" {
-     set file_url "${package_url}${glossar_id}/files/${name}"
+     set file_url "${package_url}download/?file_id=$item_id"
      set extension [lindex [split $name "."] end]
     }
 if {![empty_string_p $folder_id]} {
