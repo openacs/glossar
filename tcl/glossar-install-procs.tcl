@@ -47,3 +47,26 @@ ad_proc -public gl_glossar::install::package_instantiate {
     content::folder::register_content_type -folder_id $folder_id -content_type {gl_glossar_term} -include_subtypes t
 
 }
+
+
+ad_proc -public gl_glossar::install::package_upgrade {
+    {-from_version_name:required}
+    {-to_version_name:required}
+} {
+    Procedure for upgrade Glossar package
+} {
+    apm_upgrade_logic \
+        -from_version_name $from_version_name \
+        -to_version_name $to_version_name \
+	-spec {
+	    0.3d1 0.3d2 {
+		# Create the default objects to map the category trees using the admin UI
+		set package_id [ad_conn package_id]
+
+		package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object]
+    
+	        package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object]
+
+	    }
+	}
+}
