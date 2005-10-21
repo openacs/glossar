@@ -32,6 +32,7 @@ case when gl.target_category_id is null then 0 else 1 end as sort_key
 		cr_items ci
     	where 
 		ci.parent_id = :glossar_id
+		and ci.content_type != 'gl_glossar_term'		
    </querytext>
 </fullquery>
 
