@@ -156,12 +156,12 @@ template::list::create \
     } \
     -formats {
 	normal {
-	    label "[_ glossar.Table]"
+	    label "[_ acs-templating.Table]"
 	    layout table
 	    elements $row_list 
 	}
 	csv {
-	    label "[_ glossar.CSV]"
+	    label "[_ acs-templating.CSV]"
 	    output csv
 	    page_size 0
 	    row 

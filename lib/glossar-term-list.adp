@@ -1,4 +1,4 @@
-<table>
+<table width="100%">
 <tr>
    <td valign="top">
 	<form method="ge"t name="term-list-search"  action="glossar-term-list">

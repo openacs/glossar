@@ -155,12 +155,12 @@ template::list::create \
     -page_query_name gl_term_rev_page \
     -formats {
 	normal {
-	    label "[_ glossar.Table]"
+	    label "[_ acs-templating.Table]"
 	    layout table
 	    elements $row_list  
 	}
 	csv {
-	    label "[_ glossar.CSV]"
+	    label "[_ acs-templating.CSV]"
 	    output csv
 	    page_size 2
 	    elements $row_list
