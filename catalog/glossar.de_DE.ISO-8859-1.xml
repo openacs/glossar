@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<message_catalog package_key="glossar" package_version="0.3d" locale="de_DE" charset="ISO-8859-1">
+<message_catalog package_key="glossar" package_version="0.3d2" locale="de_DE" charset="ISO-8859-1">
 
+  <msg key="Add_a_Term_to_a_Glossar">Neuen Ausdruck zum Glossar hinzufügen</msg>
   <msg key="Add_New_Glossar">Neuen Glossar hinzufügen</msg>
   <msg key="Add_new_Glossar">Neues Glossar hinzufügen</msg>
   <msg key="Add_New_Translation">Neue Übersetzung hinzufügen</msg>
   <msg key="Add_New_translation">Neue Übersetzung hinzufügen</msg>
   <msg key="Add_new_Translation">Neue Übersetzung hinzufügen</msg>
-  <msg key="Comment">Kommentar</msg>
+  <msg key="Change_Glossar">Glossar ändern</msg>
+  <msg key="Comment">Formalien</msg>
   <msg key="Delete">Ausgewählte löschen</msg>
   <msg key="Edit_Glossar">Glossar editieren</msg>
+  <msg key="Edit_Term">Begriff editieren</msg>
+  <msg key="File">Datei</msg>
   <msg key="Files">Dateien</msg>
   <msg key="files">Dateien</msg>
+  <msg key="from_default_object_id">Standard Sprach Object</msg>
+  <msg key="From_language">Aus Sprache</msg>
+  <msg key="Glossar_Administration">Glossar Administration</msg>
   <msg key="glossar_comment">Kommentar</msg>
   <msg key="glossar_creation_user">Erstellt von</msg>
   <msg key="glossar_description">Kommentar</msg>
   <msg key="glossar_dont_text">Nicht verwenden</msg>
   <msg key="glossar_Edit">Bearbeiten</msg>
+  <msg key="Glossar_Files">Glossar Dateien</msg>
   <msg key="glossar_first_names">Vorname</msg>
   <msg key="glossar_Format_CSV">Als CSV laden</msg>
   <msg key="glossar_Format_Normal">Normale Ansicht</msg>
@@ -40,14 +48,17 @@
   <msg key="glossar_term_nr">Ausdruck Nr.</msg>
   <msg key="glossar_title">Titel</msg>
   <msg key="Glossars">Glossare</msg>
-  <msg key="index">index</msg>
-  <msg key="lt_Add_a_Term_to_a_Gloss">Einen Ausdruck zum Glossar hinzufügen</msg>
+  <msg key="map_category_tree">Kategoriebäume verknüpfen</msg>
   <msg key="New_Glossar">Neuer Glossar</msg>
   <msg key="New_Lecture">Neues Glossar</msg>
-  <msg key="New_Translation">Neue Übersetzung</msg>
+  <msg key="New_Translation">Neues Übersetzungsglossar</msg>
   <msg key="None">Keine Glossare vorhanden!</msg>
+  <msg key="Rename">Umbenennen</msg>
+  <msg key="Search">Suche</msg>
   <msg key="term_None">Keine Ausdrücke vorhanden!</msg>
+  <msg key="Terms">Begriffe</msg>
   <msg key="Title">Name des Glossar</msg>
+  <msg key="to_default_object_id">Standard Zielsprache</msg>
   <msg key="Type">Typ</msg>
   <msg key="Update">Ausgewählte aktualisieren</msg>
   <msg key="Updated_By">Aktualisiert von</msg>
