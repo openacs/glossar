@@ -38,7 +38,6 @@ if {$gl_translation_p == 1} {
 acs_object::get -object_id $owner_id -array owner
 set package_id $owner(package_id)
 
-
 set from_object_id [db_string get_from_default_object { }]
 set to_object_id [db_string get_to_default_object { }]
 
@@ -76,6 +75,10 @@ if {$gl_translation_p == 1} {
     }  
 
 }
+ad_form -extend -name glossar-add -form {
+    {etat_id:number(select),optional {label "[_ glossar.glossar_etat]"} 
+	{options [db_list_of_lists get_etats "select name, organization_id from organizations where organization_id in (select case when object_id_one = :owner_id then object_id_two else object_id_one end as organization_id from acs_rels ar, acs_rel_types art where ar.rel_type = art.rel_type and (object_id_one = :owner_id or object_id_two = :owner_id) and ar.rel_type = 'contact_rels_etat'"]}} 
+}
 
 
 
@@ -84,6 +87,7 @@ ad_form -extend -name glossar-add \
 -new_request {
     set source_category_id ""
     set target_category_id ""
+    set etat_id ""
     set description ""
     set title ""
 } -edit_request {
@@ -96,11 +100,11 @@ ad_form -extend -name glossar-add \
 	set target_category_id [db_null]
     }
     
-    gl_glossar::new -owner_id $owner_id -title "$title" -description "$description" -source_category_id $source_category_id -target_category_id $target_category_id -package_id $package_id
+    gl_glossar::new -owner_id $owner_id -title "$title" -description "$description" -source_category_id $source_category_id -target_category_id $target_category_id -package_id $package_id -etat_id $etat_id
 
 } -edit_data {
 
-    gl_glossar::edit -glossar_item_id $glossar_id -title "$title" -description "$description" -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id
+    gl_glossar::edit -glossar_item_id $glossar_id -title "$title" -description "$description" -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id $etat_id
 
 } -after_submit {
     ad_returnredirect [export_vars -base index {gl_translation_p glossar_id customer_id owner_id}]

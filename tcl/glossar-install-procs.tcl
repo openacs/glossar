@@ -25,6 +25,7 @@ ad_proc -public gl_glossar::install::create_install {
     content::type::attribute::new -content_type {gl_glossar} -attribute_name {owner_id} -datatype {number} -pretty_name {[_ glossar.glossar_owner]} -column_spec {interger}
     content::type::attribute::new -content_type {gl_glossar} -attribute_name {source_category_id} -datatype {number} -pretty_name {[_ glossar.glossar_source_category]} -column_spec {interger}
     content::type::attribute::new -content_type {gl_glossar} -attribute_name {target_category_id} -datatype {number} -pretty_name {[_ glossar.glossar_target_category]} -column_spec {interger}
+    content::type::attribute::new -content_type {gl_glossar} -attribute_name {etat_id} -datatype {number} -pretty_name {[_ glossar.glossar_etat]} -column_spec {integer}
 
 # Glossar Term Attribs.
 
@@ -45,6 +46,11 @@ ad_proc -public gl_glossar::install::package_instantiate {
     # register the allowed content types for a folder
     content::folder::register_content_type -folder_id $folder_id -content_type {gl_glossar} -include_subtypes t
     content::folder::register_content_type -folder_id $folder_id -content_type {gl_glossar_term} -include_subtypes t
+    
+    # Create the default objects to map the category trees using the admin UI
+    package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object
+    package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object
+
 
 }
 
@@ -63,10 +69,13 @@ ad_proc -public gl_glossar::install::package_upgrade {
 		# Create the default objects to map the category trees using the admin UI
 		set package_id [ad_conn package_id]
 
-		package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object]
+		package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object
     
-	        package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object]
+	        package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object
 
+	    }
+	    0.3d2 0.3d3 {
+		content::type::attribute::new -content_type {gl_glossar} -attribute_name {etat_id} -datatype {number} -pretty_name {[_ glossar.glossar_etat]} -column_spec {integer}
 	    }
 	}
 }

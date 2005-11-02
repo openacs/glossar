@@ -17,7 +17,8 @@ create table gl_glossars (
 			glossar_id       integer primary key references acs_objects(object_id),
 			owner_id 	 integer not null  references acs_objects(object_id),
 			source_category_id integer not null  references categories(category_id), 
-			target_category_id integer default null references categories(category_id)
+			target_category_id integer default null references categories(category_id),
+			etat_id		integer default null references acs_objects(object_id)
 			);
 
 

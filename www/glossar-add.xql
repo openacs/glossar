@@ -9,6 +9,7 @@
 		gl.source_category_id, 
 		gl.target_category_id, 
 		gl.owner_id 
+		gl.etat_id
 	from 
 		gl_glossars gl, 
 		cr_items cr, 

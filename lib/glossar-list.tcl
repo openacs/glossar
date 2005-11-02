@@ -142,6 +142,7 @@ template::list::create \
 	}	
 
     } -actions $actions -sub_class narrow \
+    -bulk_actions {"Move Glossars" "glossar-move" "Moves glossars to another customer"} \
     -orderby {
 	default_value title
 	glossar_id {

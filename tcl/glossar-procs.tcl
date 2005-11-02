@@ -22,7 +22,7 @@ ad_proc -public gl_glossar::new {
     {-title ""}
     {-description ""}
     {-target_category_id [db_null]}
-
+    {-etat_id ""}
 
 } {
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
@@ -51,6 +51,7 @@ ad_proc -public gl_glossar::new {
 					 [list owner_id $owner_id] \
 					 [list source_category_id $source_category_id] \
 					 [list target_category_id $target_category_id] \
+					 [list etat_id $etat_id] \
 					] ]
     }
 
@@ -63,6 +64,7 @@ ad_proc -public gl_glossar::edit {
     -owner_id:required
     -source_category_id:required
     -target_category_id:required
+    -etat_id:required
     {-title ""}
     {-name ""}
     {-description ""}
@@ -82,6 +84,7 @@ ad_proc -public gl_glossar::edit {
 					     [list owner_id $owner_id] \
 					     [list source_category_id $source_category_id] \
 					     [list target_category_id $target_category_id] \
+					     [list etat_id $etat_id] \
 					    ] ]
     }
 
