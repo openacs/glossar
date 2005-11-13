@@ -18,30 +18,64 @@ ad_page_contract {
 }
 
 
-db_1row get_glossar "SELECT title as old_title, comment as old_comment , source_category_id , target_category_id , etat_id , owner_id FROM gl_glossars WHERE glossar_id = :glossar_id" 
+db_1row get_glossar {}
 
+set from_object_id [db_string get_from_default_object { }]
+set to_object_id [db_string get_to_default_object { }]
 
-
-
+# We get the mapped category tree's to show in the form
+set source_tree_id [lindex [lindex [category_tree::get_mapped_trees $from_object_id] 0] 0]
+set target_tree_id [lindex [lindex [category_tree::get_mapped_trees $to_object_id] 0] 0]
 
 ad_form -name glossar-edit -form {
 
-    {title:text(text) {lable "[_ glossar.glossar_title]"} {value "$old_title"} }
-    {comment:text(textarea),optional {lable "[_ glossar.glossar_comment]"} {value "$old_comment"} {html{rows 4 cols 30} }}
-    {glossar_id:integer(hidden) {value $glossar_id}}
-    
-    {source_category_id:text(hidden) {value "$source_category_id"}}
-    {target_category_id:text(hidden) {value "$target_category_id"}}
-    {etat_id:number(select),optional {label "[_ glossar.glossar_etat]"} {options [db_list_of_lists get_etats "select name, organization_id from organizations where organization_id in (select case when object_id_one = :owner_id then object_id_two else object_id_one end as organization_id from acs_rels ar, acs_rel_types art where ar.rel_type = art.rel_type and (object_id_one = :owner_id or object_id_two = :owner_id) and ar.rel_type = 'contact_rels_etat'"]}} 
-    {owner_id:key}
+    {title:text(text) {lable "[_ glossar.glossar_title]"} }
+    {comment:text(textarea),optional {lable "[_ glossar.glossar_comment]"} {html{rows 4 cols 30} }}
+    {glossar_id:integer(hidden)}
+}
 
+if {![empty_string_p $target_category_id]} {
+    ad_form -extend -name glossar-edit -form {
+    
+	{source_category_id:integer(category) {label "[_ glossar.glossar_source_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t}}
+
+	{target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id   $target_tree_id} {category_assign_single_p t} {category_require_category_p f}}
+
+    } 
+
+
+} else {
+    ad_form -extend -name glossar-edit -form {
+    
+	{source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id} {category_assign_single_p t} {category_require_category_p t}}
+
+	{target_category_id:text(hidden) {value "[db_null]"}}
+
+    }  
+
+}
+
+    
+set group_id [group::get_id -group_name "Etat"]
+set is_etat_p [db_string check_if_is_etat {} -default 0]
+
+if {!$is_etat_p} {
+    set options [db_list_of_lists get_etats {}]
+    set options [concat [list [list "" ""]] $options]
+
+    ad_form -extend -name glossar-edit -form {
+	{etat_id:integer(select),optional {label "[_ glossar.glossar_etat]"} {options $options}}
+    }
+} else {
+    ad_form -extend -name glossar-edit -form {
+	{etat_id:text(hidden) {value [db_null]}}
+    }
+}
+
+ad_form -extend -name glossar-edit -form {
+    {owner_id:key}
 }  -edit_data {
 
-    gl_glossar::edit -glossar_id $glossar_id -title "$title" -comment "$comment" -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id $etat_id
-} -edit_request {}
-
-
-
-
-
-
+    gl_glossar::edit -glossar_item_id $glossar_id -title $title -description $comment -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id $etat_id
+} -edit_request {
+}

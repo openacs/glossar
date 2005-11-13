@@ -54,30 +54,42 @@ ad_form -name glossar-add -export {owner_id package_id gl_translation_p customer
 
 
 if {$gl_translation_p == 1} {
-
     ad_form -extend -name glossar-add -form {
     
-	{source_category_id:integer(category) {label "[_ glossar.glossar_source_category]"} {category_tree_id $source_tree_id}  {assign_single_p t} {require_category_p t} {html {size 4}} }
+	{source_category_id:integer(category) {label "[_ glossar.glossar_source_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t}}
 
-	{target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id   $target_tree_id} {assign_single_p t} {require_category_p f}}
+	{target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id   $target_tree_id} {category_assign_single_p t} {category_require_category_p f}}
 
     } 
 
 
 } else {
-
     ad_form -extend -name glossar-add -form {
     
-	{source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id}  {assign_single_p t} {require_category_p t} {html {size 4}} }
+	{source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t}}
 
 	{target_category_id:text(hidden) {value "[db_null]"}}
 
     }  
 
 }
-ad_form -extend -name glossar-add -form {
-    {etat_id:number(select),optional {label "[_ glossar.glossar_etat]"} 
-	{options [db_list_of_lists get_etats "select name, organization_id from organizations where organization_id in (select case when object_id_one = :owner_id then object_id_two else object_id_one end as organization_id from acs_rels ar, acs_rel_types art where ar.rel_type = art.rel_type and (object_id_one = :owner_id or object_id_two = :owner_id) and ar.rel_type = 'contact_rels_etat'"]}} 
+
+set group_id [group::get_id -group_name "Etat"]
+set is_etat_p [db_string check_if_is_etat {} -default 0]
+
+if {!$is_etat_p} {
+    set options [db_list_of_lists get_etats {}]
+    set options [concat [list [list "" ""]] $options]
+
+    ad_form -extend -name glossar-add -form {
+	{etat_id:integer(select),optional {label "[_ glossar.glossar_etat]"} 
+	    {options $options}
+	}
+    }
+} else {
+    ad_form -extend -name glossar-add -form {
+	{etat_id:text(hidden) {value [db_null]}}
+    }
 }
 
 

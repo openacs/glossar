@@ -91,7 +91,7 @@ set gl_translation_p 1
 lappend actions "[_ glossar.New_Translation]" [export_vars -base "${base_url}/glossar-add" {owner_id gl_translation_p customer_id}] "[_ glossar.Add_New_Translation]" 
 
 
-set row_list [list title description source_category target_category glossar_edit glossar_files]
+set row_list [list checkbox title description source_category target_category glossar_edit glossar_files]
 
 set no_perm_p 0 
 
@@ -114,90 +114,92 @@ if [permission::permission_p -object_id $owner_id -privilege admin] {
 
 if { $no_perm_p == 0} {
 
-template::list::create \
-    -name gl_glossar \
-    -key glossar_id \
-    -no_data "[_ glossar.None]" \
-    -selected_format $format \
-    -pass_properties {customer_id owner_id edit_link} \
-    -elements {
-        title {
-	    label {[_ glossar.glossar_title]}
-	    display_template "<a href=\"@gl_glossar.title_url@\">@gl_glossar.title@</a>"
-        }
-        description {
-	    label {[_ glossar.glossar_description]}
-        }
-        source_category {
-	    label {[_ glossar.glossar_source_category_header]}
-	}
-        target_category {
-	    label {[_ glossar.glossar_target_category]}
-        }
-	glossar_edit {
-	    display_template "<a href=\"@gl_glossar.edit_url@\">[_ acs-kernel.common_Edit]</a>"
-	}	
-	glossar_files {
-	    display_template "<a href=\"@gl_glossar.files_url@\">[_ glossar.Files]</a> (@gl_glossar.files_count@)"
-	}	
+    template::list::create \
+	-name gl_glossar \
+	-key glossar_id \
+	-no_data "[_ glossar.None]" \
+	-selected_format $format \
+	-pass_properties {customer_id owner_id edit_link} \
+	-elements {
+	    title {
+		label {[_ glossar.glossar_title]}
+		display_template "<a href=\"@gl_glossar.title_url@\">@gl_glossar.title@</a>"
+	    }
+	    description {
+		label {[_ glossar.glossar_description]}
+	    }
+	    source_category {
+		label {[_ glossar.glossar_source_category_header]}
+	    }
+	    target_category {
+		label {[_ glossar.glossar_target_category]}
+	    }
+	    glossar_edit {
+		display_template "<a href=\"@gl_glossar.edit_url@\">[_ acs-kernel.common_Edit]</a>"
+	    }	
+	    glossar_files {
+		display_template "<a href=\"@gl_glossar.files_url@\">[_ glossar.Files]</a> (@gl_glossar.files_count@)"
+	    }	
 
-    } -actions $actions -sub_class narrow \
-    -bulk_actions {"Move Glossars" "glossar-move" "Moves glossars to another customer"} \
-    -orderby {
-	default_value title
-	glossar_id {
-	    label {[_ glossar.glossar_id]}
-	    orderby_desc {sort_key asc , gl.glossar_id desc}
-	    orderby_asc {sort_key asc , gl.glossar_id asc}
-	    default_direction desc
-	}
-	title {
-	    label {[_ glossar.glossar_title]}
-	    orderby_desc {sort_key asc , crr.title desc}
-	    orderby_asc {sort_key asc , crr.title asc}
-	    default_direction asc
-	}
-    }  -orderby_name orderby \
-    -filters {
-	customer_id {}
-	edit_link {}
-    } \
-    -page_size_variable_p 1 \
-    -page_size $page_size \
-    -page_flush_p 0 \
-    -page_query_name gl_glossar \
-    -formats {
-	normal {
-	    label "[_ acs-templating.Table]"
-	    layout table
-	    elements $row_list 
-	}
-	csv {
-	    label "[_ acs-templating.CSV]"
-	    output csv
-	    page_size 0
-	    row 
-	}
-    } 
+	} -actions $actions -sub_class narrow \
+	-bulk_actions {"Move Glossars" $gl_glossar.move_url "Moves glossars to another customer"} \
+	-orderby {
+	    default_value title
+	    glossar_id {
+		label {[_ glossar.glossar_id]}
+		orderby_desc {sort_key asc , gl.glossar_id desc}
+		orderby_asc {sort_key asc , gl.glossar_id asc}
+		default_direction desc
+	    }
+	    title {
+		label {[_ glossar.glossar_title]}
+		orderby_desc {sort_key asc , crr.title desc}
+		orderby_asc {sort_key asc , crr.title asc}
+		default_direction asc
+	    }
+	}  -orderby_name orderby \
+	-filters {
+	    customer_id {}
+	    edit_link {}
+	} \
+	-page_size_variable_p 1 \
+	-page_size $page_size \
+	-page_flush_p 0 \
+	-page_query_name gl_glossar \
+	-formats {
+	    normal {
+		label "[_ acs-templating.Table]"
+		layout table
+		elements $row_list 
+	    }
+	    csv {
+		label "[_ acs-templating.CSV]"
+		output csv
+		page_size 0
+		row 
+	    }
+	} 
 
 
 
-db_multirow -extend {source_category target_category gl_translation_p glossar_edit glossar_files files_url edit_url title_url files_count} gl_glossar gl_glossar  {} {
-    if {![empty_string_p $target_category_id]} {
-	set gl_translation_p 1
-    } else {
-	set gl_translation_p 0
+    db_multirow -extend {source_category target_category gl_translation_p glossar_edit glossar_files files_url edit_url title_url files_count} gl_glossar gl_glossar  {} {
+	if {![empty_string_p $target_category_id]} {
+	    set gl_translation_p 1
+	} else {
+	    set gl_translation_p 0
+	}
+	set files_count [db_string get_files_count { } -default 0]
+	set glossar_edit "[_ glossar.glossar_Edit]"
+	set glossar_files "[_ glossar.files]"
+	set source_category "[category::get_name $source_category_id]"
+	set target_category "[category::get_name $target_category_id]"
+	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id gl_translation_p customer_id owner_id}]"
+	set edit_url "[export_vars -base "${base_url}/glossar-edit" {glossar_id}]"
+	set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id}]"
+	set return_url [ad_conn url]
+	set move_url "[export_vars -base "${base_url}/glossar-move" {$return_url}]"
+    } if_no_rows {
+	
+	
     }
-    set files_count [db_string get_files_count { } -default 0]
-    set glossar_edit "[_ glossar.glossar_Edit]"
-    set glossar_files "[_ glossar.files]"
-    set source_category "[category::get_name $source_category_id]"
-    set target_category "[category::get_name $target_category_id]"
-    set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id gl_translation_p customer_id owner_id}]"
-    set edit_url "[export_vars -base "${base_url}/glossar-add" {owner_id glossar_id gl_translation_p }]"
-    set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id}]"
-} if_no_rows {
-
-    
-}
 }

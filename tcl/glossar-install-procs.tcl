@@ -65,17 +65,22 @@ ad_proc -public gl_glossar::install::package_upgrade {
         -from_version_name $from_version_name \
         -to_version_name $to_version_name \
 	-spec {
-	    0.3d1 0.3d2 {
-		# Create the default objects to map the category trees using the admin UI
-		set package_id [ad_conn package_id]
-
-		package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object
-    
-	        package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object
-
-	    }
 	    0.3d2 0.3d3 {
 		content::type::attribute::new -content_type {gl_glossar} -attribute_name {etat_id} -datatype {number} -pretty_name {[_ glossar.glossar_etat]} -column_spec {integer}
 	    }
+	    0.3d3 0.3d4 {
+		# Create the default objects to map the category trees using the admin UI
+		set package_ids [db_list glossar_package_ids {
+		    SELECT package_id
+		    FROM   apm_packages
+		    WHERE  package_key = 'glossar'
+		}]
+		foreach package_id $package_ids {
+		    package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object
+    
+		    package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object
+		}
+	    }
+
 	}
 }
