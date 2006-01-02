@@ -10,7 +10,7 @@
   
 <fullquery name="gl_term">
     <querytext>
-       SELECT  crr.item_id as term_id, cr.parent_id as glossar_id , crr.description , glt.source_text , glt.target_text , glt.dont_text , aco.creation_user , to_char(aco.last_modified , 'DD.MM.YY HH24:MI') as last_modified , p.first_names , p.last_name
+       SELECT  crr.item_id as term_id, cr.parent_id as glossar_id , crr.description , glt.source_text , glt.target_text , glt.dont_text , aco.creation_user , to_char(aco.last_modified , 'YYYY-MM-DD HH24:MI:SS') as last_modified , p.first_names , p.last_name
       FROM gl_glossar_terms glt, cr_items cr, cr_revisions crr , acs_objects aco , persons p 
       WHERE cr.latest_revision = crr.revision_id
       AND crr.revision_id = glt.term_id

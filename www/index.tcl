@@ -2,7 +2,7 @@
 
 ad_page_contract {
     
-    Index page displays all existing glossars for agiven object_id (currently its the user_id in future it will be the eta_id )
+    Index page displays all existing glossars for agiven object_id (currently its the user_id in future it will be the etat_id )
     
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-09

@@ -30,6 +30,8 @@
   <msg key="glossar_id">Glossar Nr.</msg>
   <msg key="glossar_last_modified">Zuletzt geändert</msg>
   <msg key="glossar_last_name">Nachname</msg>
+  <msg key="glossar_Move">Glossare umhaengen</msg>
+  <msg key="glossar_Move2">Glossare zu einem anderen Kunden wechseln</msg>
   <msg key="glossar_New">Neu</msg>
   <msg key="glossar_New2">Neu</msg>
   <msg key="glossar_New_lekture">Neues Lektorat</msg>
@@ -44,7 +46,8 @@
   <msg key="glossar_target_category">Zielsprache</msg>
   <msg key="glossar_target_text">Zielausdruck</msg>
   <msg key="glossar_term_add">Ausdruck hinzufügen</msg>
-  <msg key="glossar_term_edit">Edit</msg>
+  <msg key="glossar_term_edit">Aendern</msg>
+  <msg key="glossar_term_history">Alle Aenderungen</msg>
   <msg key="glossar_term_nr">Ausdruck Nr.</msg>
   <msg key="glossar_title">Titel</msg>
   <msg key="Glossars">Glossare</msg>

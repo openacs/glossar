@@ -30,6 +30,8 @@
   <msg key="glossar_id">Glossar Nr.</msg>
   <msg key="glossar_last_modified">Last modified</msg>
   <msg key="glossar_last_name">Sir Name</msg>
+  <msg key="glossar_Move">Move Glossars</msg>
+  <msg key="glossar_Move2">Moves glossars to another customer</msg>
   <msg key="glossar_New">New</msg>
   <msg key="glossar_New2">New</msg>
   <msg key="glossar_New_lekture">New Lecture</msg>
@@ -45,6 +47,7 @@
   <msg key="glossar_target_text">Target Term</msg>
   <msg key="glossar_term_add">Glossar Term Add</msg>
   <msg key="glossar_term_edit">Edit</msg>
+  <msg key="glossar_term_history">History</msg>
   <msg key="glossar_term_nr">Term Nr.</msg>
   <msg key="glossar_title">Title</msg>
   <msg key="Glossars">Glossars</msg>

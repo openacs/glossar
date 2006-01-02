@@ -31,18 +31,21 @@ if {![info exists page_size]} {
 }
 
 
+set user_id [ad_conn user_id]
+set locale [lang::user::site_wide_locale -user_id $user_id]
+set time_format [lc_get -locale $locale d_fmt]
 
 
 
 if {$gl_translation_p == 1} {
 
-    set row_list [list  source_text target_text dont_text description last_modified first_names last_name ]
+    set row_list [list source_text {} target_text {} dont_text {} description {} last_modified {} creation_user {}]
     set source_text_lable [_ glossar.glossar_source_text]
     set actions ""
 
 } else {
 
-    set row_list [list  source_text dont_text description last_modified first_names last_name ]
+    set row_list [list source_text {} dont_text {} description {} last_modified {} creation_user {}]
     set source_text_lable [_ glossar.glossar_singel_text]
     set actions ""
 
@@ -93,34 +96,30 @@ template::list::create \
 	last_modified {
 	    label {[_ glossar.glossar_modified_at]}
 	} 
-	first_names {
-	    label {[_ glossar.glossar_first_names]}
-	    link_url_eval {[acs_community_member_url -user_id $creation_user]}
-	} 
-	last_name {
-	    label {[_ glossar.glossar_last_name]}
-	    link_url_eval {[acs_community_member_url -user_id $creation_user]}
+	creation_user {
+	    label {[_ glossar.glossar_creation_user]}
+	    display_template {<a href="@gl_term_rev.creator_url@">@gl_term_rev.last_name@, @gl_term_rev.first_names@</a>}
 	} 
     } -actions $actions -sub_class narrow \
     -orderby_name orderby \
     -orderby {
      default_value source_text
-     source_text {
-	 label {$source_text_lable}
-	 orderby_desc {glt.source_text desc}
-	 orderby_asc {glt.source_text asc}
-	 default_direction asc
-     }
-     target_text {
-	 label {[_ glossar.glossar_target_text]}
-	 orderby_desc {glt.target_text desc}
-	 orderby_asc {glt.target_text asc}
-	 default_direction asc
-     }
-      dont_text {
+	source_text {
+	    label {$source_text_lable}
+	    orderby_desc {lower(glt.source_text) desc}
+	    orderby_asc {lower(glt.source_text) asc}
+	    default_direction asc
+	}
+	target_text {
+	    label {[_ glossar.glossar_target_text]}
+	    orderby_desc {lower(glt.target_text) desc}
+	    orderby_asc {lower(glt.target_text) asc}
+	    default_direction asc
+	}
+	dont_text {
 	    label {[_ glossar.glossar_dont_text]}
-	    orderby_desc {glt.dont_text desc}
-	    orderby_asc {glt.dont_text asc}
+	    orderby_desc {lower(glt.dont_text) desc}
+	    orderby_asc {lower(glt.dont_text) asc}
 	    default_direction asc
 	}
 	last_modified {
@@ -129,16 +128,10 @@ template::list::create \
 	    orderby_asc {aco.last_modified asc}
 	    default_direction asc
 	}
-	first_names {
-	    label {[_ glossar.glossar_first_names]}
-	    orderby_desc {p.first_names desc}
-	    orderby_asc {p.first_names asc}
-	    default_direction asc
-	}
-	last_name {
-	    label {[_ glossar.glossar_last_name]}
-	    orderby_desc {p.last_name desc}
-	    orderby_asc {p.last_name asc}
+	creation_user {
+	    label {[_ glossar.glossar_creation_user]}
+	    orderby_desc {lower(p.last_name desc, lower(p.first_names) desc}
+	    orderby_asc {lower(p.last_name) asc, lower(p.first_names) asc}
 	    default_direction asc
 	}
     } -filters {
@@ -174,7 +167,9 @@ template::list::create \
 # May add extra order_by clause
 
 set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page term_id}] 
-db_multirow  -extend {gl_translation_p} gl_term_rev gl_term_rev  {} {
+db_multirow  -extend {gl_translation_p creator_url} gl_term_rev gl_term_rev  {} {
+    set creator_url [acs_community_member_url -user_id $creation_user]
+    set last_modified [lc_time_fmt $last_modified $time_format]
     if {![empty_string_p $target_text]} {
 	set gl_translation_p 1
     } else {
