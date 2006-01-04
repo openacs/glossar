@@ -38,4 +38,3 @@
 <br />
 
 <listtemplate name="gl_term"></listtemplate>
-  

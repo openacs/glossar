@@ -29,9 +29,9 @@ set target_tree_id [lindex [lindex [category_tree::get_mapped_trees $to_object_i
 
 ad_form -name glossar-edit -form {
 
-    {title:text(text) {lable "[_ glossar.glossar_title]"} }
-    {comment:text(textarea),optional {lable "[_ glossar.glossar_comment]"} {html{rows 4 cols 30} }}
-    {glossar_id:integer(hidden)}
+    {glossar_id:key}
+    {title:text(text) {label "[_ glossar.Title]"}  }
+    {description:text(textarea),optional {label "[_ glossar.Comment]"} {html{rows 4 cols 30} }}
 }
 
 if {![empty_string_p $target_category_id]} {
@@ -39,7 +39,7 @@ if {![empty_string_p $target_category_id]} {
     
 	{source_category_id:integer(category) {label "[_ glossar.glossar_source_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t}}
 
-	{target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id   $target_tree_id} {category_assign_single_p t} {category_require_category_p f}}
+	{target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id   $target_tree_id} {category_assign_single_p t} {category_require_category_p t}}
 
     } 
 
@@ -59,23 +59,32 @@ if {![empty_string_p $target_category_id]} {
 set group_id [group::get_id -group_name "Etat"]
 set is_etat_p [db_string check_if_is_etat {} -default 0]
 
-if {!$is_etat_p} {
-    set options [db_list_of_lists get_etats {}]
-    set options [concat [list [list "" ""]] $options]
+set options [db_list_of_lists get_etats {}]
+set options [concat [list [list "" ""]] $options]
 
+if {[llength $options] > 1} {
     ad_form -extend -name glossar-edit -form {
-	{etat_id:integer(select),optional {label "[_ glossar.glossar_etat]"} {options $options}}
+	{target_id:integer(select),optional {label "[_ glossar.glossar_etat]"} {options $options}}
     }
 } else {
     ad_form -extend -name glossar-edit -form {
-	{etat_id:text(hidden) {value [db_null]}}
+	{target_id:text(hidden) {value ""}}
     }
 }
 
 ad_form -extend -name glossar-edit -form {
-    {owner_id:key}
+    {owner_id:text(hidden)}
+} -edit_request {
 }  -edit_data {
 
-    gl_glossar::edit -glossar_item_id $glossar_id -title $title -description $comment -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id $etat_id
-} -edit_request {
+    set old_owner_id $owner_id
+    if {![empty_string_p $target_id]} {
+	db_1row get_rel_id {}
+    }
+
+    gl_glossar::edit -glossar_item_id $glossar_id -title $title -description $comment -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id ""
+
+} -after_submit {
+    ad_returnredirect "/contacts/$old_owner_id"
+    ad_script_abort
 }

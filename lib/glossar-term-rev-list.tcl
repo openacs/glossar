@@ -9,7 +9,7 @@
 
 
 
-foreach required_param {glossar_id term_id gl_translation_p searchterm} {
+foreach required_param {glossar_id term_id searchterm} {
     if {![info exists $required_param]} {
 	return -code error "$required_param is a required parameter."
     }
@@ -33,11 +33,17 @@ if {![info exists page_size]} {
 
 set user_id [ad_conn user_id]
 set locale [lang::user::site_wide_locale -user_id $user_id]
-set time_format [lc_get -locale $locale d_fmt]
+set time_format "[lc_get -locale $locale d_fmt] %X"
+
+db_1row get_glossar_data {
+    select g.target_category_id
+    from gl_glossars g, cr_items gi
+    where g.glossar_id = gi.latest_revision
+    and gi.item_id = :glossar_id
+}
 
 
-
-if {$gl_translation_p == 1} {
+if {![empty_string_p $target_category_id]} {
 
     set row_list [list source_text {} target_text {} dont_text {} description {} last_modified {} creation_user {}]
     set source_text_lable [_ glossar.glossar_source_text]
@@ -77,12 +83,12 @@ template::list::create \
     -name gl_term_rev \
     -multirow gl_term_rev \
     -key crr.revision_id \
-    -no_data "[_ glossar.term_None]" \
     -selected_format normal \
+    -no_data "[_ glossar.term_None]" \
     -pass_properties {glossar_id} \
     -elements {
 	source_text {
-	    label {"$source_text_lable"} 
+	    label {$source_text_lable} 
 	}
 	target_text { 
 	    label {[_ glossar.glossar_target_text]}
@@ -136,7 +142,6 @@ template::list::create \
 	}
     } -filters {
 	glossar_id {}
-	gl_translation_p {}
 	term_id {}
 	searchterm {
 	    label "[_ glossar.glossar_term_search]"
@@ -150,13 +155,13 @@ template::list::create \
 	normal {
 	    label "[_ acs-templating.Table]"
 	    layout table
-	    elements $row_list  
+	    row $row_list  
 	}
 	csv {
 	    label "[_ acs-templating.CSV]"
 	    output csv
 	    page_size 2
-	    elements $row_list
+	    row $row_list
 	}
     }
 

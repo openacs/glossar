@@ -31,8 +31,6 @@ if {![info exists format]} {
     set page_size "25"
 }
 
-# set glossar_id "0"
-# set gl_translation_p 0
 set user_id [ad_conn user_id]
 
 if {[empty_string_p $user_id]} {
@@ -65,33 +63,25 @@ if {[empty_string_p $user_id]} {
 #    terms as well?
 
 
-   
+set actions [list "[_ glossar.New_Lecture]" [export_vars -base "${base_url}/glossar-add" {owner_id {gl_translation_p 0} target_id }] "[_ glossar.New_Lecture]"]
 
-if {[db_0or1row owner_type_check {SELECT object_id_one , object_id_two FROM acs_rels WHERE rel_id = :owner_id}]} {
-    set customer_id $object_id_two 
-    set owner_id $object_id_one 
-} else {
-
-    if {![info exists customer_id]} {
-	set customer_id ""
-    }
-
-    set owner_id $owner_id 
-}
-
-set actions [list "[_ glossar.New_Lecture]" [export_vars -base "${base_url}/glossar-add" {owner_id gl_translation_p customer_id }] "[_ glossar.New_Lecture]"]
-
-set gl_translation_p 1
-
-lappend actions "[_ glossar.New_Translation]" [export_vars -base "${base_url}/glossar-add" {owner_id gl_translation_p customer_id}] "[_ glossar.Add_New_Translation]" 
+lappend actions "[_ glossar.New_Translation]" [export_vars -base "${base_url}/glossar-add" {owner_id {gl_translation_p 1} target_id}] "[_ glossar.Add_New_Translation]" 
 
 set return_url [ad_conn url]
 set move_url "[export_vars -base "${base_url}/glossar-move" {$return_url}]"
 
 
+if {[group::party_member_p -party_id $owner_id -group_name Etat]} {
+    set target_name "[_ glossar.glossar_organization]"
+} else {
+    set target_name "[_ glossar.glossar_etat]"
+}
+
+
 set row_list [list checkbox {} title {} description {} source_category {} target_category {} glossar_edit {} glossar_files {}]
 
 set no_perm_p 0 
+set return_url [ad_conn url]
 
 if [permission::permission_p -object_id $owner_id -privilege admin] {
 
@@ -123,6 +113,10 @@ if { $no_perm_p == 0} {
 		label {[_ glossar.glossar_title]}
 		display_template "<a href=\"@gl_glossar.title_url@\">@gl_glossar.title@</a>"
 	    }
+	    name {
+		label $target_name
+		display_template {<if @gl_glossar.organization_id@ ne @owner_id@><a href="@gl_glossar.target_url@">@gl_glossar.name@</a></if><else>&nbsp;</else>}
+	    }
 	    description {
 		label {[_ glossar.glossar_description]}
 	    }
@@ -135,24 +129,28 @@ if { $no_perm_p == 0} {
 	    glossar_edit {
 		display_template {<a href="@gl_glossar.edit_url@"><img border="0" src="/shared/images/Edit16.gif" alt="#acs-kernel.common_Edit#" /></a>}
 	    }	
-	    glossar_files {
-		display_template "<a href=\"@gl_glossar.files_url@\">[_ glossar.Files]</a> (@gl_glossar.files_count@)"
+	    glossar_perm {
+		display_template {<a href="@gl_glossar.permission_url@"><img border="0" src="/glossar/resources/padlock.gif" alt="#glossar.set_permissions#" /></a>}
 	    }	
+	    glossar_files {
+		display_template {<a href="@gl_glossar.files_url@"><img border="0" src="/glossar/resources/folder.gif" alt="#glossar.Files#"></a> (@gl_glossar.files_count@)}
+	    }
 
 	} -actions $actions -sub_class narrow \
-	-bulk_actions {"[_ glossar.glossar_Move]" $move_url "[_ glossar.glossar_Move2]"} \
+	-bulk_actions [list "[_ glossar.glossar_Move]" $move_url "[_ glossar.glossar_Move2]"] \
+	-bulk_action_export_vars {return_url} \
 	-orderby {
 	    default_value title
 	    glossar_id {
 		label {[_ glossar.glossar_id]}
-		orderby_desc {sort_key asc , gl.glossar_id desc}
-		orderby_asc {sort_key asc , gl.glossar_id asc}
+		orderby_desc {sort_key asc , glossar_id desc}
+		orderby_asc {sort_key asc , glossar_id asc}
 		default_direction desc
 	    }
 	    title {
 		label {[_ glossar.glossar_title]}
-		orderby_desc {sort_key asc , lower(crr.title) desc}
-		orderby_asc {sort_key asc , lower(crr.title) asc}
+		orderby_desc {sort_key asc , gl_title desc}
+		orderby_asc {sort_key asc, gl_title asc}
 		default_direction asc
 	    }
 	}  -orderby_name orderby \
@@ -180,7 +178,7 @@ if { $no_perm_p == 0} {
 
 
 
-    db_multirow -extend {source_category target_category gl_translation_p files_url edit_url title_url files_count} gl_glossar gl_glossar  {} {
+    db_multirow -extend {source_category target_category gl_translation_p files_url edit_url permission_url title_url target_url files_count} gl_glossar gl_glossar  {} {
 	if {![empty_string_p $target_category_id]} {
 	    set gl_translation_p 1
 	} else {
@@ -189,9 +187,11 @@ if { $no_perm_p == 0} {
 	set files_count [db_string get_files_count { } -default 0]
 	set source_category "[category::get_name $source_category_id]"
 	set target_category "[category::get_name $target_category_id]"
-	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id gl_translation_p customer_id owner_id}]"
+	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id}]"
 	set edit_url "[export_vars -base "${base_url}/glossar-edit" {glossar_id}]"
+	set permission_url "[export_vars -base "/permissions/one" {{object_id $glossar_id} {application_url [ad_return_url]}}]"
 	set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id}]"
+	set target_url "/contacts/$organization_id"
     } if_no_rows {
 	
 	

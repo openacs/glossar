@@ -51,11 +51,7 @@ ad_proc -public gl_glossar::install::package_instantiate {
     package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object
     package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object
 
-
-    package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.from_default_object_id#"]] acs_object
-    
-    package_instantiate_object -package_name acs_object -var_list [list [list new__context_id $package_id] [list new__package_id $package_id] [list new__title "#glossar.to_default_object_id#"]] acs_object
-
+    callback gl_glossar::install::after_instantiate -package_id $package_id
 }
 
 

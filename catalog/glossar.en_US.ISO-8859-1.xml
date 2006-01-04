@@ -23,6 +23,7 @@
   <msg key="glossar_description">Comment</msg>
   <msg key="glossar_dont_text">Don't use</msg>
   <msg key="glossar_Edit">Edit</msg>
+  <msg key="glossar_etat">Etat</msg>
   <msg key="Glossar_Files">Glossar Files</msg>
   <msg key="glossar_first_names">First Name</msg>
   <msg key="glossar_Format_CSV">Get CSV</msg>
@@ -30,6 +31,7 @@
   <msg key="glossar_id">Glossar Nr.</msg>
   <msg key="glossar_last_modified">Last modified</msg>
   <msg key="glossar_last_name">Sir Name</msg>
+  <msg key="glossar_modified_at">Modified on</msg>
   <msg key="glossar_Move">Move Glossars</msg>
   <msg key="glossar_Move2">Moves glossars to another customer</msg>
   <msg key="glossar_New">New</msg>
@@ -38,6 +40,7 @@
   <msg key="glossar_New_term">New Term</msg>
   <msg key="glossar_New_translation">New Translation</msg>
   <msg key="glossar_no_label"></msg>
+  <msg key="glossar_organization">Customer</msg>
   <msg key="glossar_singel_text">Term</msg>
   <msg key="glossar_single_category">Language</msg>
   <msg key="glossar_source_category">Source Language</msg>
@@ -59,6 +62,7 @@
   <msg key="None">No Glossars exist!</msg>
   <msg key="Rename">Rename</msg>
   <msg key="Search">Search</msg>
+  <msg key="set_permissions">Set permissions</msg>
   <msg key="term_None">No Terms found!</msg>
   <msg key="Terms">Terms</msg>
   <msg key="Title">Title</msg>
@@ -67,5 +71,8 @@
   <msg key="Update">Update selected</msg>
   <msg key="Updated_By">Updated by</msg>
   <msg key="Updated_On">Updated on</msg>
+  <msg key="Upload">Upload</msg>
   <msg key="Upload_More">More Files</msg>
+  <msg key="uploaded_file">The file %message% has been saved.</msg>
+  <msg key="uploaded_files">The files %message% have been saved.</msg>
 </message_catalog>

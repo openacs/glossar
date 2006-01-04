@@ -27,7 +27,7 @@ if {![info exists orderby]} {
 }
 
 if {$upload_count != 10} {
-    set upload_count 1
+    # set upload_count 1
 }
 
 set folder_id [application_data_link::get_linked \
@@ -35,6 +35,10 @@ set folder_id [application_data_link::get_linked \
 		   -to_object_type "content_folder"]
 
 
+
+set user_id [ad_conn user_id]
+set locale [lang::user::site_wide_locale -user_id $user_id]
+set time_format "[lc_get -locale $locale d_fmt] %X"
 
 set form_elements [list {glossar_id:integer(hidden)}]
 lappend form_elements [list {upload_count:integer(hidden)}]
@@ -47,7 +51,7 @@ while {$upload_number <= $upload_count} {
     incr upload_number
 }
 
-if {$upload_count == 1} {set upload_label "Upload" } else {set upload_label "[_ glossar.glossar_Done]" }
+set upload_label "[_ glossar.Upload]"
 
 lappend form_elements [list "upload:text(submit),optional" [list "label" $upload_label]]
 lappend form_elements [list "upload_more:text(submit),optional" [list "label" "[_ glossar.Upload_More]"]]
@@ -87,15 +91,15 @@ ad_form -name upload_files -html {enctype multipart/form-data} -form $form_eleme
     }
     if {[llength $message] == 1} {
 	set message [lindex $message 1]
-	util_user_message -html -message "[_ glossar.lt_The_file_lindex_messa]"
+	util_user_message -html -message "[_ glossar.uploaded_file]"
     } elseif {[llength $message] > 1} {
 	set message [join $message ", "]
-	util_user_message -html -message "[_ glossar.lt_The_files_join_messag]"
+	util_user_message -html -message "[_ glossar.uploaded_files]"
     }
 } -after_submit {
     if {[exists_and_not_null upload_more]} {
 	ad_returnredirect [export_vars \
-			       -base "glossar-file-upload" -url {{upload_count 10 glossar_id}}]
+			       -base "glossar-file-upload" -url {{upload_count 10} glossar_id}]
     } else {
 	ad_returnredirect "glossar-file-upload?glossar_id=$glossar_id"
     }
@@ -132,11 +136,10 @@ template::list::create \
 	}
 	creation_date {
 	    label "[_ glossar.Updated_On]"
-	    display_col creation_date_pretty
 	}
 	creation_user {
 	    label "[_ glossar.Updated_By]"
-	    display_col creation_user_pretty
+	    display_template {<a href="@files.creator_url@">@files.last_name@, @files.first_names@</a>}
 	}
     } -filters {
     } -orderby {
@@ -163,27 +166,31 @@ template::list::create \
 	normal {
 	    label "[_ glossar.Table]"
 	    layout table
-	    row {
-	    }
+	    row {}
 	}
     }
 
 set package_url [ad_conn package_url]
-db_multirow -extend {file_url extension} -unclobber files select_files "select ci.item_id,
+db_multirow -extend {file_url extension creator_url} -unclobber files select_files "
+ select ci.item_id,
        ci.name,
        cr.title,
-       to_char(ao.creation_date,'FMMon DD FMHH12:MIam') as creation_date_pretty,
-       contact__name(ao.creation_user) as creation_user_pretty
-  from cr_items ci, cr_revisions cr, acs_objects ao
+       to_char(ao.creation_date,'YYYY-MM-DD HH24:MI:SS') as creation_date,
+       ao.creation_user,
+       p.first_names, p.last_name
+  from cr_items ci, cr_revisions cr, acs_objects ao, persons p
  where ci.parent_id = :glossar_id
    and ci.live_revision = cr.revision_id
    and cr.revision_id = ao.object_id
-[template::list::orderby_clause \
-     -orderby \
-     -name "files"]" {
+   and p.person_id = ao.creation_user
+[template::list::orderby_clause -orderby -name files]" {
+
      set file_url "${package_url}download/?file_id=$item_id"
      set extension [lindex [split $name "."] end]
+    set creator_url [acs_community_member_url -user_id $creation_user]
+    set creation_date [lc_time_fmt $creation_date $time_format]
     }
+
 if {![empty_string_p $folder_id]} {
     set package_id [lindex [fs::get_folder_package_and_root $folder_id] 0]
     set base_url [apm_package_url_from_id $package_id]

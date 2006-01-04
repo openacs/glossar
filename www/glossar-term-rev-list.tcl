@@ -10,14 +10,12 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     glossar_id:notnull
-    gl_translation_p:notnull
     term_id:notnull
     {page ""}
     {orderby ""}
     {searchterm ""}
 } -properties {
     glossar_id
-    gl_translation_p
     page
     orderby
     searchterm
@@ -25,6 +23,3 @@ ad_page_contract {
 } -validate {
 } -errors {
 }
-
-
-

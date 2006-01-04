@@ -10,12 +10,9 @@ ad_page_contract {
     @cvs-id $Id$
 } {
     glossar_id:notnull
-    gl_translation_p:notnull
-    owner_id:notnull
     {page ""}
     {orderby ""}
     {searchterm ""}
-    {customer_id ""}
     {format "normal"}
 } -properties {
     glossar_id
@@ -28,9 +25,5 @@ ad_page_contract {
     owner_id
 } -validate {
 } -errors {
-}
-
-if {$customer_id == $owner_id} {
-    set customer_id ""
 }
 

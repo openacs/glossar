@@ -15,6 +15,7 @@ ad_page_contract {
 set context "search"
 set search_id ""
 set glossar_id [string trim $glossar_id "{}"]
+set customer_group_id [group::get_id -group_name "Customers"]
 
 
 ad_form -name search -export {glossar_id} -form {

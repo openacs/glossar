@@ -19,7 +19,7 @@ foreach id $glossar_id {
 	-owner_id $customer_id \
 	-source_category_id $source_category_id\
 	-target_category_id $target_category_id\
-	-etat_id $etat_id \
+	-etat_id "" \
 	-title $title \
 	-description $description
 }

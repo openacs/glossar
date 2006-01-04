@@ -66,4 +66,14 @@
     </querytext>
 </fullquery>
 
+<fullquery name="get_rel_id">
+    <querytext>
+	SELECT ar.rel_id as owner_id
+	FROM  acs_rels ar
+	WHERE ((object_id_one = :owner_id and object_id_two = :target_id)
+	OR  (object_id_one = :target_id and object_id_two = :owner_id))
+	AND   ar.rel_type = 'contact_rels_etat'
+    </querytext>
+</fullquery>
+
 </queryset>

@@ -14,13 +14,31 @@
 
 <fullquery name="gl_glossar">
     <querytext>  
-      SELECT cr.item_id as glossar_id , crr.title , crr.description , gl.source_category_id , gl.target_category_id , gl.owner_id,
-case when gl.target_category_id is null then 0 else 1 end as sort_key  
-      FROM gl_glossars gl, cr_items cr, cr_revisions crr  
-      WHERE cr.latest_revision = crr.revision_id 
-      AND crr.revision_id = gl.glossar_id	
-      AND gl.owner_id = :owner_id 
-      [template::list::orderby_clause -orderby -name gl_glossar]
+      SELECT cr_items.item_id as glossar_id, cr_revisions.title, cr_revisions.description,
+              gl_glossars.source_category_id, gl_glossars.target_category_id,
+              gl_glossars.owner_id as gl_owner_id, organizations.name, 1 as query_number,
+              case when gl_glossars.target_category_id is null then 0 else 1 end as sort_key,
+              organizations.organization_id, lower(cr_revisions.title) as gl_title
+      FROM gl_glossars, cr_items, cr_revisions, organizations
+      WHERE cr_items.latest_revision = cr_revisions.revision_id 
+      AND cr_revisions.revision_id = gl_glossars.glossar_id	
+      AND gl_glossars.owner_id = organizations.organization_id
+      AND organizations.organization_id = :owner_id
+      UNION
+      SELECT cr_items.item_id as glossar_id, cr_revisions.title as gl_title, cr_revisions.description,
+              gl_glossars.source_category_id, gl_glossars.target_category_id,
+              gl_glossars.owner_id as gl_owner_id, organizations.name, 2 as query_number,
+              case when gl_glossars.target_category_id is null then 0 else 1 end as sort_key,
+              organizations.organization_id, lower(cr_revisions.title) as gl_title
+      FROM gl_glossars, cr_items, cr_revisions, organizations, acs_rels
+      WHERE cr_items.latest_revision = cr_revisions.revision_id 
+      AND cr_revisions.revision_id = gl_glossars.glossar_id	
+      AND gl_glossars.owner_id =  acs_rels.rel_id
+      AND ((acs_rels.object_id_one = organizations.organization_id AND acs_rels.object_id_two = :owner_id)
+      OR (acs_rels.object_id_two = organizations.organization_id AND acs_rels.object_id_one = :owner_id))
+      AND acs_rels.rel_type = 'contact_rels_etat'
+      ORDER BY query_number asc,
+      [template::list::orderby_clause -name gl_glossar]
     </querytext>
 </fullquery>
 

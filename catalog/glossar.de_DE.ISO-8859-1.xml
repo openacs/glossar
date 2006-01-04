@@ -23,6 +23,7 @@
   <msg key="glossar_description">Kommentar</msg>
   <msg key="glossar_dont_text">Nicht verwenden</msg>
   <msg key="glossar_Edit">Bearbeiten</msg>
+  <msg key="glossar_etat">Etat</msg>
   <msg key="Glossar_Files">Glossar Dateien</msg>
   <msg key="glossar_first_names">Vorname</msg>
   <msg key="glossar_Format_CSV">Als CSV laden</msg>
@@ -30,6 +31,7 @@
   <msg key="glossar_id">Glossar Nr.</msg>
   <msg key="glossar_last_modified">Zuletzt geändert</msg>
   <msg key="glossar_last_name">Nachname</msg>
+  <msg key="glossar_modified_at">Geändert am</msg>
   <msg key="glossar_Move">Glossare umhaengen</msg>
   <msg key="glossar_Move2">Glossare zu einem anderen Kunden wechseln</msg>
   <msg key="glossar_New">Neu</msg>
@@ -38,6 +40,7 @@
   <msg key="glossar_New_term">Neuer Ausdruck</msg>
   <msg key="glossar_New_translation">Neue Uuml;bersetzung</msg>
   <msg key="glossar_no_label"></msg>
+  <msg key="glossar_organization">Kunde</msg>
   <msg key="glossar_singel_text">Ausdruck</msg>
   <msg key="glossar_single_category">Sprache</msg>
   <msg key="glossar_source_category">Ausgangssprache</msg>
@@ -58,6 +61,7 @@
   <msg key="None">Keine Glossare vorhanden!</msg>
   <msg key="Rename">Umbenennen</msg>
   <msg key="Search">Suche</msg>
+  <msg key="set_permissions">Berechtigungen setzen</msg>
   <msg key="term_None">Keine Ausdrücke vorhanden!</msg>
   <msg key="Terms">Begriffe</msg>
   <msg key="Title">Name des Glossar</msg>
@@ -66,5 +70,8 @@
   <msg key="Update">Ausgewählte aktualisieren</msg>
   <msg key="Updated_By">Aktualisiert von</msg>
   <msg key="Updated_On">Aktualisiert am</msg>
+  <msg key="Upload">Speichern</msg>
   <msg key="Upload_More">Weitere Dateien</msg>
+  <msg key="uploaded_file">Die Datei %message% wurde gespeichert.</msg>
+  <msg key="uploaded_files">Die Dateien %message% wurden gespeichert.</msg>
 </message_catalog>
