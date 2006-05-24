@@ -7,7 +7,7 @@
 # @arch-tag: beb88796-955e-4cbd-af5e-3919597c7ed1
 # @cvs-id $Id$
 
-foreach required_param {glossar_id searchterm} {
+foreach required_param {glossar_id contact_id searchterm} {
     if {![info exists $required_param]} {
 	return -code error "$required_param is a required parameter."
     }
@@ -32,21 +32,8 @@ if {[empty_string_p $glossar_language] } {
     set glossar_language "<div align=\"center\"> - - - - - - - - -</div>"
 }
 
-if {[empty_string_p $glossar_target_lan] } {
-    set glossar_target_lan "<div align=\"center\"> - - - - - - - - -</div>"
-}
-
 # get all the files
-set files [list]
-db_foreach get_files { } {
-    lappend files "<a href=\"download/?file_id=$item_id\" title=\"$name\">$title</a>"
-}
-
-if {[empty_string_p $files] } {
-    set files "<div align=\"center\"> - - - - - - - - -</div>"
-} else {
-    set files [join $files ",&nbsp;&nbsp;"]
-}
+db_multirow files get_files {}
 
 if {![info exists format]} {
     set format "normal"
@@ -67,7 +54,7 @@ if {[empty_string_p $user_id]} {
 if {$format == "normal"} {
     set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creation_user {} edit {} history {}]
 } else {
-    set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creation_user {}] 
+    set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creator_name {}] 
 }
 
 set glossar_ids $glossar_id
@@ -87,23 +74,25 @@ if {$organization_p} {
     set glossar_owner_lable "[_ glossar.glossar_etat]"
 }
 
+if {![empty_string_p $target_category_id]} {
+
+    set target_where_clause "AND g.target_category_id = :target_category_id"
+    set source_text_lable [_ glossar.glossar_source_text]
+    set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id contact_id}] "[_ glossar.glossar_New_term]" ]
+
+} else {
+
+    set target_where_clause ""
+    set row_list [lreplace $row_list 2 3]
+    set source_text_lable [_ glossar.glossar_singel_text]
+    set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id contact_id}] "[_ glossar.glossar_New_term]"]
+
+}
+
 # get glossars with matching languages that belongs to the relationships
 db_foreach $glossar_query_name {} {
     lappend glossar_ids $item_id
     set owners($owner_id) $name
-}
-
-if {![empty_string_p $target_category_id]} {
-    
-    set source_text_lable [_ glossar.glossar_source_text]
-    set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id}] "[_ glossar.glossar_New_term]" ]
-
-} else {
-
-    set row_list [lreplace $row_list 2 3]
-    set source_text_lable [_ glossar.glossar_singel_text]
-    set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id}] "[_ glossar.glossar_New_term]"]
-
 }
 
 
@@ -113,12 +102,12 @@ if {[permission::permission_p -object_id $glossar_id -privilege admin]} {
     if {$format == "normal"} {
 	
 	set where_format " AND  "
-	lappend actions "[_ glossar.glossar_Format_CSV]" [export_vars -base glossar-term-list {glossar_id {format csv}}] "[_ glossar.glossar_New2]"
+	lappend actions "[_ glossar.glossar_Format_CSV]" [export_vars -base glossar-term-list {glossar_id contact_id {format csv}}] "[_ glossar.glossar_New2]"
 
     } else {
 
 	set where_format "   "
-	lappend actions "[_ glossar.glossar_Format_Normal]" [export_vars -base glossar-term-list {glossar_id {format normal}}] "[_ glossar.glossar_New2]"
+	lappend actions "[_ glossar.glossar_Format_Normal]" [export_vars -base glossar-term-list {glossar_id contact_id {format normal}}] "[_ glossar.glossar_New2]"
     }
 
 } elseif {[permission::permission_p -object_id $glossar_id -privilege create]} {
@@ -183,7 +172,7 @@ template::list::create \
 	    label {[_ glossar.glossar_dont_text]}
         }
         description {
-	    label {[_ glossar.glossar_description]}
+	    label {[_ glossar.glossar_comment]}
         } 
 	owner {
 	    label {$glossar_owner_lable}
@@ -194,6 +183,9 @@ template::list::create \
 	creation_user {
 	    label {[_ glossar.glossar_creation_user]}
 	    display_template {<a href="@gl_term.creator_url@">@gl_term.last_name@, @gl_term.first_names@</a>}
+	} 
+	creator_name {
+	    label {[_ glossar.glossar_creation_user]}
 	} 
 	edit {
 	    label " "
@@ -225,6 +217,18 @@ template::list::create \
 	    orderby_asc {lower(glt.dont_text) asc}
 	    default_direction asc
 	}
+	description {
+	    label {[_ glossar.glossar_comment]}
+	    orderby_desc {lower(crr.description) desc}
+	    orderby_asc {lower(crr.description) asc}
+	    default_direction asc
+	}
+	owner {
+	    label {[_ glossar.glossar_owner]}
+	    orderby_desc {g.owner_id desc}
+	    orderby_asc {g.owner_id asc}
+	    default_direction asc
+	}
 	last_modified {
 	    label {[_ glossar.glossar_last_modified]}
 	    orderby_desc {aco.last_modified desc}
@@ -239,6 +243,7 @@ template::list::create \
 	}
     } -filters {
 	glossar_id {}
+	contact_id {}
 	searchterm {
 	    label "[_ glossar.glossar_term_search]"
 	    where_clause $search_where_clause
@@ -263,9 +268,9 @@ template::list::create \
 
 
 
-set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page owner_id customer_id }] 
+set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page owner_id customer_id contact_id }] 
 
-db_multirow  -extend {gl_translation_p creator_url edit_url history_url owner} gl_term gl_term  {} {
+db_multirow  -extend {gl_translation_p creator_url creator_name edit_url history_url owner} gl_term gl_term  {} {
     if {![empty_string_p $target_text]} {
 	set gl_translation_p 1
     } else {
@@ -282,11 +287,12 @@ db_multirow  -extend {gl_translation_p creator_url edit_url history_url owner} g
     } else {
 	set owner ""
     }
-
+    
+    set creator_name "$first_names $last_name"
     set last_modified [lc_time_fmt $last_modified $time_format]
     set creator_url [acs_community_member_url -user_id $creation_user]
-    set edit_url [export_vars -base glossar-term-add {glossar_id term_id}]
-    set history_url [export_vars -base glossar-term-rev-list {glossar_id term_id}]
+    set edit_url [export_vars -base glossar-term-add {glossar_id term_id contact_id}]
+    set history_url [export_vars -base glossar-term-rev-list {glossar_id term_id contact_id}]
 } if_no_rows {}
 
-# template::list::write_output -name gl_term
+template::list::write_output -name gl_term

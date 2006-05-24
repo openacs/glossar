@@ -14,6 +14,7 @@ ad_page_contract {
     {orderby ""}
     {searchterm ""}
     {format "normal"}
+    contact_id:notnull
 } -properties {
     glossar_id
     gl_translation_p
@@ -23,7 +24,9 @@ ad_page_contract {
     customer_id
     format
     owner_id
-} -validate {
-} -errors {
 }
 
+db_1row glossar_title {}
+
+set page_title "[_ glossar.Glossars] \"$glossar_title\""
+set context [list [list "/contacts/$contact_id" [contact::name -party_id $contact_id]] $page_title]

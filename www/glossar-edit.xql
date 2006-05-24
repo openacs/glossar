@@ -1,10 +1,21 @@
 <?xml version="1.0"?>
 <queryset>
 
+<fullquery name="check_translation_p">
+    <querytext>
+    SELECT case when g.target_category_id is null then 'f' else 't' end as translation_p, g.owner_id,
+           g.source_category_id as source_cat_id, g.target_category_id as target_cat_id
+    FROM   gl_glossars g,
+           cr_items i
+    WHERE  i.item_id = :glossar_id
+    AND    g.glossar_id = i.latest_revision
+    </querytext>
+</fullquery>
+
 <fullquery name="get_glossar">
     <querytext>
     SELECT r.title,
-           r.description as comment,
+           r.description,
            g.source_category_id,
            g.target_category_id,
            g.etat_id,
@@ -54,6 +65,16 @@
     </querytext>
 </fullquery>
 
+<fullquery name="check_rel_owner">
+    <querytext>
+    select case when object_id_one = :contact_id then object_id_two else object_id_one end as rel_target_id,
+           :contact_id as owner_id
+    from acs_rels
+    where rel_id = :owner_id
+    and rel_type = 'contact_rels_etat'
+    </querytext>
+</fullquery>
+
 <fullquery name="check_if_is_etat">
     <querytext>
     select count(*)
@@ -64,6 +85,15 @@
 </fullquery>
 
 <fullquery name="get_rel_id">
+    <querytext>
+	SELECT :contact_id as owner_id
+	FROM  acs_rels ar
+	WHERE ar.rel_id = :owner_id
+	AND   ar.rel_type = 'contact_rels_etat'
+    </querytext>
+</fullquery>
+
+<fullquery name="get_rel_id2">
     <querytext>
 	SELECT ar.rel_id as owner_id
 	FROM  acs_rels ar

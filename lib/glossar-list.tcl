@@ -32,6 +32,7 @@ if {![info exists format]} {
 }
 
 set user_id [ad_conn user_id]
+set contact_id $owner_id
 
 if {[empty_string_p $user_id]} {
     ad_redirect_for_registration
@@ -78,21 +79,21 @@ if {[group::party_member_p -party_id $owner_id -group_name Etat]} {
 }
 
 
-set row_list [list checkbox {} title {} description {} source_category {} target_category {} glossar_edit {} glossar_files {}]
+set row_list [list checkbox {} title {} source_category {} target_category {} glossar_edit {} glossar_files {}]
 
 set no_perm_p 0 
 set return_url [ad_conn url]
 
 if [permission::permission_p -object_id $owner_id -privilege admin] {
 
-} elseif {[permission::permission_p -object_id $owner_id -privilege create]} {
+} elseif {[permission::permission_p -object_id $owner_id -privilege create] || [group::member_p -group_name Employees]} {
 
     set user_perm create
 
 } elseif {[permission::permission_p -object_id $owner_id -privilege read]} {
 
     set actions ""
-    set row_list [list title {} description {} source_category {} target_category {}]
+    set row_list [list title {} source_category {} target_category {}]
 
 } else {
 
@@ -138,7 +139,7 @@ if { $no_perm_p == 0} {
 
 	} -actions $actions -sub_class narrow \
 	-bulk_actions [list "[_ glossar.glossar_Move]" $move_url "[_ glossar.glossar_Move2]"] \
-	-bulk_action_export_vars {return_url} \
+	-bulk_action_export_vars {return_url contact_id} \
 	-orderby {
 	    default_value title
 	    glossar_id {
@@ -156,6 +157,7 @@ if { $no_perm_p == 0} {
 	}  -orderby_name orderby \
 	-filters {
 	    customer_id {}
+	    contact_id {}
 	    edit_link {}
 	} \
 	-page_size_variable_p 1 \
@@ -187,13 +189,11 @@ if { $no_perm_p == 0} {
 	set files_count [db_string get_files_count { } -default 0]
 	set source_category "[category::get_name $source_category_id]"
 	set target_category "[category::get_name $target_category_id]"
-	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id}]"
-	set edit_url "[export_vars -base "${base_url}/glossar-edit" {glossar_id}]"
+	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id contact_id}]"
+	set edit_url "[export_vars -base "${base_url}/glossar-edit" {glossar_id contact_id}]"
 	set permission_url "[export_vars -base "/permissions/one" {{object_id $glossar_id} {application_url [ad_return_url]}}]"
-	set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id}]"
+	set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id contact_id}]"
 	set target_url "/contacts/$organization_id"
     } if_no_rows {
-	
-	
     }
 }

@@ -50,7 +50,8 @@
 		cr_items ci
     	where 
 		ci.parent_id = :glossar_id
-		and ci.content_type != 'gl_glossar_term'		
+		and ci.content_type != 'gl_glossar_term'
+                and ci.live_revision is not null
    </querytext>
 </fullquery>
 

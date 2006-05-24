@@ -12,11 +12,16 @@ ad_page_contract {
     glossar_id:notnull
     {upload_count "1"}
     {order_by  "file,asc"}
+    contact_id:notnull
 } -properties {
     glossar_id
     upload_count
     order_by
-} -validate {
-} -errors {
 }
 
+set page_title "[_ glossar.Glossar_Files]"
+set context [list [list "/contacts/$contact_id" [contact::name -party_id $contact_id]] $page_title]
+
+db_1row glossar_title {}
+
+append page_title ": $glossar_title"

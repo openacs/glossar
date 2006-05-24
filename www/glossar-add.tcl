@@ -20,21 +20,19 @@ ad_page_contract {
 
 if {$gl_translation_p == 1} {
     if {[exists_and_not_null glossar_id]} {
-	set context "translation-edit"
 	set page_title "[_ glossar.Edit_Translation]"
     } else {
-	set context "translation-add"
 	set page_title "[_ glossar.New_Translation]"
     }
 } else {
     if {[exists_and_not_null glossar_id]} {
-	set context "glossar-edit"
 	set page_title "[_ glossar.Edit_Glossar]"
     } else {
-	set context "glossar-add"
 	set page_title "[_ glossar.Add_new_Glossar]"
     }
 }
+
+set context [list [list "/contacts/$owner_id" [contact::name -party_id $owner_id]] $page_title]
 acs_object::get -object_id $owner_id -array owner
 set package_id $owner(package_id)
 
@@ -49,7 +47,7 @@ set target_tree_id [lindex [lindex [category_tree::get_mapped_trees $to_object_i
 ad_form -name glossar-add -export {owner_id package_id gl_translation_p customer_id} -form {
     {glossar_id:key}
     {title:text(text) {label "[_ glossar.Title]"}  }
-    {description:text(textarea),optional {label "[_ glossar.Comment]"} {html{rows 4 cols 30} }}
+    {description:text(textarea),optional {label "[_ glossar.Comment]"} {html {rows 6 cols 80} }}
 } 
 
 

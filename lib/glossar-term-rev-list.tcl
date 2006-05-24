@@ -9,7 +9,7 @@
 
 
 
-foreach required_param {glossar_id term_id searchterm} {
+foreach required_param {glossar_id term_id contact_id searchterm} {
     if {![info exists $required_param]} {
 	return -code error "$required_param is a required parameter."
     }
@@ -143,6 +143,7 @@ template::list::create \
     } -filters {
 	glossar_id {}
 	term_id {}
+	contact_id {}
 	searchterm {
 	    label "[_ glossar.glossar_term_search]"
 	    where_clause $search_where_clause
@@ -171,7 +172,8 @@ template::list::create \
 
 # May add extra order_by clause
 
-set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page term_id}] 
+set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page term_id contact_id}] 
+
 db_multirow  -extend {gl_translation_p creator_url} gl_term_rev gl_term_rev  {} {
     set creator_url [acs_community_member_url -user_id $creation_user]
     set last_modified [lc_time_fmt $last_modified $time_format]

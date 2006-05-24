@@ -14,12 +14,18 @@ ad_page_contract {
     {page ""}
     {orderby ""}
     {searchterm ""}
+    contact_id:notnull
 } -properties {
     glossar_id
     page
     orderby
     searchterm
     term_id
-} -validate {
-} -errors {
+
 }
+
+db_1row glossar_title {}
+db_1row term_title {}
+
+set page_title "[_ glossar.Glossar_term_history_of] \"$term_title\""
+set context [list [list "/contacts/$contact_id" [contact::name -party_id $contact_id]] [list [export_vars -base "glossar-term-list" {glossar_id contact_id}] $glossar_title] $page_title]

@@ -15,7 +15,7 @@
       WHERE gi.latest_revision = g.glossar_id
       AND g.owner_id = o.organization_id
       AND g.source_category_id = :source_category_id
-      AND g.target_category_id = :target_category_id
+      $target_where_clause
       AND r.rel_id = :owner_id
       AND r.object_id_one = o.organization_id
       AND r.rel_type = 'contact_rels_etat'
@@ -29,7 +29,7 @@
       WHERE gi.latest_revision = g.glossar_id
       AND g.owner_id = r.rel_id
       AND g.source_category_id = :source_category_id
-      AND g.target_category_id = :target_category_id
+      $target_where_clause
       AND r.object_id_one = :owner_id
       AND r.object_id_two = o.organization_id
       AND r.rel_type = 'contact_rels_etat'

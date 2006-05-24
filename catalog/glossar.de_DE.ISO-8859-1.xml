@@ -20,7 +20,7 @@
   <msg key="Glossar_Administration">Glossar Administration</msg>
   <msg key="glossar_comment">Kommentar</msg>
   <msg key="glossar_creation_user">Erstellt von</msg>
-  <msg key="glossar_description">Kommentar</msg>
+  <msg key="glossar_description">Formalien</msg>
   <msg key="glossar_dont_text">Nicht verwenden</msg>
   <msg key="glossar_Edit">Bearbeiten</msg>
   <msg key="glossar_etat">Etat</msg>
@@ -50,13 +50,13 @@
   <msg key="glossar_target_text">Zielausdruck</msg>
   <msg key="glossar_term_add">Ausdruck hinzufügen</msg>
   <msg key="glossar_term_edit">Aendern</msg>
-  <msg key="glossar_term_history">Alle Aenderungen</msg>
+  <msg key="glossar_term_history">Alle Änderungen</msg>
   <msg key="glossar_term_nr">Ausdruck Nr.</msg>
   <msg key="glossar_title">Titel</msg>
   <msg key="Glossars">Glossare</msg>
   <msg key="map_category_tree">Kategoriebäume verknüpfen</msg>
   <msg key="New_Glossar">Neuer Glossar</msg>
-  <msg key="New_Lecture">Neues Glossar</msg>
+  <msg key="New_Lecture">Neues Lektorats-Glossar</msg>
   <msg key="New_Translation">Neues Übersetzungsglossar</msg>
   <msg key="None">Keine Glossare vorhanden!</msg>
   <msg key="Rename">Umbenennen</msg>

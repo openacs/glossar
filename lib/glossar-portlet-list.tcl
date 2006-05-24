@@ -26,6 +26,7 @@ set base_url [dotlrn_community::get_community_url \
 set page_size 100
 set base_url "glossar"
 set user_id [ad_conn user_id]
+set contact_id $owner_id
 
 if {[empty_string_p $user_id]} {
     ad_redirect_for_registration
@@ -84,7 +85,7 @@ set no_perm_p 0
 
 if [permission::permission_p -object_id $owner_id -privilege admin] {
 
-} elseif {[permission::permission_p -object_id $owner_id -privilege create]} {
+} elseif {[permission::permission_p -object_id $owner_id -privilege create] || [group::member_p -group_name Employees]} {
 
     set user_perm create
 
@@ -188,8 +189,6 @@ db_multirow -extend {source_category target_category gl_translation_p glossar_ed
 	set new_glossar "[export_vars -base "${base_url}/index" {owner_id {customer_id $gl_owner_id}}]"
     }
 } if_no_rows {
-
-
 }
 
 }

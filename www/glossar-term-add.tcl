@@ -15,13 +15,20 @@ ad_page_contract {
     {target_text ""}
     {dont_text ""}
     {description ""}
+    {__new_p 0}
+    contact_id:notnull
 } -properties {
-} -validate {
-} -errors {
 }
 
-set context "[_ glossar.glossar_term_add]"
-set title "[_ glossar.Add_a_Term_to_a_Glossar]"
+db_1row glossar_title {}
+
+if {![info exists term_id] || $__new_p} {
+    set context [list [list "/contacts/$contact_id" [contact::name -party_id $contact_id]] [list [export_vars -base "glossar-term-list" {glossar_id contact_id}] $glossar_title] "[_ glossar.glossar_term_add]"]
+    set page_title "[_ glossar.Add_a_Term_to_a_Glossar]"
+} else {
+    set context [list [list "/contacts/$contact_id" [contact::name -party_id $contact_id]] [list [export_vars -base "glossar-term-list" {glossar_id contact_id}] $glossar_title] "[_ glossar.Edit_Term]"]
+    set page_title "[_ glossar.Edit_Term]"
+}
 
 db_1row get_glossar_data {
     select g.target_category_id
@@ -30,20 +37,20 @@ db_1row get_glossar_data {
     and gi.item_id = :glossar_id
 }
 
-ad_form -name glossar-term-add -export {glossar_id} -form {
+ad_form -name glossar-term-add -export {glossar_id contact_id} -form {
     {term_id:key}
 }
 
 if {![empty_string_p $target_category_id]} {
 
     ad_form -extend -name glossar-term-add -form {
-	{source_text:text(textarea),optional {label "[_ glossar.glossar_source_text]"} {html {rows 4 cols 60}}}
-	{target_text:text(textarea),optional {label "[_ glossar.glossar_target_text]"} {html {rows 4 cols 60}}}
+	{source_text:text(textarea),optional {label "[_ glossar.glossar_source_text]"} {html {rows 4 cols 50}}}
+	{target_text:text(textarea),optional {label "[_ glossar.glossar_target_text]"} {html {rows 4 cols 50}}}
     }    
 } else {
 
     ad_form -extend -name glossar-term-add -form {
-	{source_text:text(textarea),optional {label "[_ glossar.glossar_singel_text]"} {html {rows 4 cols 60}}}
+	{source_text:text(textarea),optional {label "[_ glossar.glossar_singel_text]"} {html {rows 4 cols 50}}}
     }
 }
 
@@ -51,7 +58,7 @@ if {![empty_string_p $target_category_id]} {
 ad_form -extend -name glossar-term-add -form {
 
     {dont_text:text(textarea),optional {label "[_ glossar.glossar_dont_text]"} {html {rows 4 cols 50}}}
-    {description:text(textarea),optional {label "[_ glossar.glossar_description]"} {html {rows 4 cols 50}}}
+    {description:text(textarea),optional {label "[_ glossar.glossar_comment]"} {html {rows 4 cols 50}}}
 
 } -new_request {
 

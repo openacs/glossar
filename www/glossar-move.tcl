@@ -10,17 +10,21 @@ ad_page_contract {
     {return_url "/"}
     {query ""}
     {glossar_id:notnull,multiple}
+    contact_id:notnull
 }
 
-set context "search"
+#move glossar
+set page_title "[_ glossar.glossar_move]"
+set context [list [list "/contacts/$contact_id" [contact::name -party_id $contact_id]] $page_title]
+
 set search_id ""
 set glossar_id [string trim $glossar_id "{}"]
 set customer_group_id [group::get_id -group_name "Customers"]
 
 
-ad_form -name search -export {glossar_id} -form {
+ad_form -name search -export {glossar_id contact_id} -form {
     {query:text(text) {label ""} {html {size 24}}}
-    {Search:text(submit) {value "Search"}}
+    {search:text(submit) {value 1} {label "[_ glossar.search]"}}
 }
 
 template::list::create \
@@ -36,5 +40,5 @@ template::list::create \
 	}
     }
 db_multirow -extend {move_url} customers get_customers_from_prefix {} {
-    set move_url [export_vars -base "move-glossar" {{customer_id $organization_id} glossar_id:multiple return_url}]
+    set move_url [export_vars -base "move-glossar" {{customer_id $organization_id} glossar_id:multiple return_url contact_id}]
 }

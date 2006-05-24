@@ -12,25 +12,29 @@
    <td>
 	<table>
 	<tr>
-	    <td><b>#glossar.Title#:</b></td>
-	    <td> @glossar_title@</td>
-	</tr>
-	<tr>
-	    <td><b>#glossar.Comment#:</b></td>
-	    <td> @glossar_comment;noquote@ </td>
-	</tr>
-	<tr>
 	    <td><b>#glossar.glossar_single_category#:</b></td>
 	    <td> @glossar_language;noquote@ </td>
 	</tr>
+        <if @glossar_target_lan@ not nil>
 	<tr>
 	    <td><b>#glossar.glossar_target_category#:</b></td>
 	    <td> @glossar_target_lan;noquote@ </td>
 	</tr>
+        </if>
+	<tr>
+	    <td><b>#glossar.Comment#:</b></td>
+	    <td> <b> @glossar_comment;noquote@ </b> </td>
+	</tr>
+        <if @files:rowcount@ gt 0>
 	<tr>
 	    <td><b>#glossar.Files#:</b></td>
-	    <td> @files;noquote@ </td>
+	    <td>
+              <multiple name=files>
+                <a href="download/@files.name@?file_id=@files.item_id@" title="@files.name@">@files.name@</a><br>
+              </multiple>
+            </td>
 	</tr>
+        </if>
 	</table>
    </td>
 </tr>

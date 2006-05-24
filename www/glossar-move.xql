@@ -9,10 +9,9 @@
 	WHERE 	o.organization_id = p.party_id
 	AND 	o.organization_id = m.member_id
         AND     m.group_id = :customer_group_id
-	[contact::search_clause -and -search_id $search_id -query $query -party_id "o.party_id" -revision_id "revision_id"]
+	[contact::search_clause -and -search_id $search_id -query $query -party_id "p.party_id" -revision_id "revision_id"]
 
       </querytext>
 </fullquery>
 
- 
 </queryset>
