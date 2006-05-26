@@ -87,7 +87,7 @@ ad_form -extend -name glossar-term-add -form {
         gl_glossar::term_edit  -term_id $term_id -source_text $source_text -target_text $target_text -dont_text $dont_text -description $description
 } -after_submit {
 
-    ad_returnredirect [export_vars -base glossar-term-list {glossar_id}]
+    ad_returnredirect [export_vars -base glossar-term-list {glossar_id contact_id}]
     ad_script_abort
 }
 
