@@ -9,7 +9,7 @@ ad_library {
 }
 
 
-ad_proc -public -callback gl_glossar::install::after_instantiate {
+ad_proc -public -callback glossar::install::after_instantiate {
     {-package_id:required}
 } {
 }

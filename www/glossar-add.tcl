@@ -114,11 +114,11 @@ ad_form -extend -name glossar-add \
 	set target_category_id [db_null]
     }
     
-    gl_glossar::new -owner_id $owner_id -title "$title" -description "$description" -source_category_id $source_category_id -target_category_id $target_category_id -package_id $package_id -etat_id ""
+    glossar::glossary::new -owner_id $owner_id -title "$title" -description "$description" -source_category_id $source_category_id -target_category_id $target_category_id -package_id $package_id -etat_id ""
 
 } -edit_data {
 
-    gl_glossar::edit -glossar_item_id $glossar_id -title "$title" -description "$description" -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id ""
+    glossar::glossary::edit -glossar_item_id $glossar_id -title "$title" -description "$description" -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id ""
 
 } -after_submit {
     ad_returnredirect "/contacts/$old_owner_id"

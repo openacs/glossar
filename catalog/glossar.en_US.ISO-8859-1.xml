@@ -7,9 +7,13 @@
   <msg key="Add_New_Translation">Add New Translation</msg>
   <msg key="Add_New_translation">Add New Translation</msg>
   <msg key="Add_new_Translation">Add new Translation</msg>
+  <msg key="cancel_and_return">Cancel and Return</msg>
   <msg key="Change_Glossar">Change Glossar</msg>
   <msg key="Comment">Comment</msg>
+  <msg key="continue_with_delete">Continue with delete. &lt;font color=red&gt;Warning!! This is final and cannot be undone!!&lt;/font&gt;</msg>
   <msg key="Delete">Delete selected</msg>
+  <msg key="Delete_Glossar">Delete Glossar(y)</msg>
+  <msg key="Delete_Glossar_irreversibly">Delete glossar(y) irreversibly</msg>
   <msg key="Edit_Glossar">Edit Glossar</msg>
   <msg key="Edit_Term">Edit Term</msg>
   <msg key="File">File</msg>
@@ -33,7 +37,9 @@
   <msg key="glossar_last_name">Sir Name</msg>
   <msg key="glossar_modified_at">Modified on</msg>
   <msg key="glossar_Move">Move Glossars</msg>
+  <msg key="glossar_move">Move glossar</msg>
   <msg key="glossar_Move2">Moves glossars to another customer</msg>
+  <msg key="glossar_move_search">Search for &lt;b&gt;Customers&lt;/b&gt; who's name contains:</msg>
   <msg key="glossar_New">New</msg>
   <msg key="glossar_New2">New</msg>
   <msg key="glossar_New_lekture">New Lecture</msg>
@@ -41,6 +47,7 @@
   <msg key="glossar_New_translation">New Translation</msg>
   <msg key="glossar_no_label"></msg>
   <msg key="glossar_organization">Customer</msg>
+  <msg key="glossar_owner">Glossar owner</msg>
   <msg key="glossar_singel_text">Term</msg>
   <msg key="glossar_single_category">Language</msg>
   <msg key="glossar_source_category">Source Language</msg>
@@ -51,7 +58,9 @@
   <msg key="glossar_term_add">Glossar Term Add</msg>
   <msg key="glossar_term_edit">Edit</msg>
   <msg key="glossar_term_history">History</msg>
+  <msg key="Glossar_term_history_of">Changes of</msg>
   <msg key="glossar_term_nr">Term Nr.</msg>
+  <msg key="glossar_term_search">Glossar term search</msg>
   <msg key="glossar_title">Title</msg>
   <msg key="Glossars">Glossars</msg>
   <msg key="index">index</msg>
@@ -62,6 +71,7 @@
   <msg key="None">No Glossars exist!</msg>
   <msg key="Rename">Rename</msg>
   <msg key="Search">Search</msg>
+  <msg key="search">Search</msg>
   <msg key="set_permissions">Set permissions</msg>
   <msg key="term_None">No Terms found!</msg>
   <msg key="Terms">Terms</msg>

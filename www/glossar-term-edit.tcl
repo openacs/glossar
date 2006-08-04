@@ -56,5 +56,5 @@ ad_form -name edit-term -from {
 } -edit_data {
 
 
-    gl_glossar::term_edit -glossar_id $glossar_id -source_text $source_text -target_text $target_text -dont_text $dont_text -comment $commnet
+    glossar::term::edit -glossar_id $glossar_id -source_text $source_text -target_text $target_text -dont_text $dont_text -comment $commnet
 }

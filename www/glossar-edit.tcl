@@ -97,7 +97,7 @@ ad_form -extend -name glossar-edit -form {
 	db_1row get_rel_id2 {}
     }
 
-    gl_glossar::edit -glossar_item_id $glossar_id -title $title -description $description -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id ""
+    glossar::glossary::edit -glossar_item_id $glossar_id -title $title -description $description -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id ""
 
 
 } -after_submit {

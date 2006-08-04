@@ -29,7 +29,7 @@ db_transaction {
 	    and exists (select 1 from acs_rels where rel_id = :old_owner_id)
 	}
     
-	gl_glossar::edit -glossar_item_id $id \
+	glossar::glossary::edit -glossar_item_id $id \
 	    -owner_id $owner_id \
 	    -source_category_id $source_category_id\
 	    -target_category_id $target_category_id\

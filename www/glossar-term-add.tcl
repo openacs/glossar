@@ -37,7 +37,16 @@ db_1row get_glossar_data {
     and gi.item_id = :glossar_id
 }
 
-ad_form -name glossar-term-add -export {glossar_id contact_id} -form {
+
+set edit_buttons [list]
+
+lappend edit_buttons [list "[_ acs-kernel.common_Save]" "ok" ]
+
+if {![exists_and_not_null term_id]} {
+    lappend edit_buttons [list "[_ acs-kernel.common_Next] >" "next" ]
+}
+
+ad_form -name glossar-term-add -edit_buttons $edit_buttons -export {glossar_id contact_id} -form {
     {term_id:key}
 }
 
@@ -81,13 +90,21 @@ ad_form -extend -name glossar-term-add -form {
 } -new_data {
     
 
-	set term_id [gl_glossar::term_new -term_id $term_id -glossar_id $glossar_id -source_text "$source_text" -target_text "$target_text" -dont_text "$dont_text" -description "$description"]
+	set term_id [glossar::term::new -term_id $term_id -glossar_id $glossar_id -source_text "$source_text" -target_text "$target_text" -dont_text "$dont_text" -description "$description"]
     
 } -edit_data {
-        gl_glossar::term_edit  -term_id $term_id -source_text $source_text -target_text $target_text -dont_text $dont_text -description $description
+        glossar::term::edit  -term_id $term_id -source_text $source_text -target_text $target_text -dont_text $dont_text -description $description
 } -after_submit {
 
-    ad_returnredirect [export_vars -base glossar-term-list {glossar_id contact_id}]
+    set button [form::get_button glossar-term-add]
+
+    if { ![string equal $button "ok"] } {
+	set return_url  "[export_vars -base glossar-term-add {glossar_id contact_id}]"
+    } else {
+	set return_url "[export_vars -base glossar-term-list {glossar_id contact_id}]"
+    }
+
+    ad_returnredirect $return_url
     ad_script_abort
 }
 

@@ -6,6 +6,7 @@
 # @creation-date 2005-07-10
 # @arch-tag: beb88796-955e-4cbd-af5e-3919597c7ed1
 # @cvs-id $Id$
+# 2006/08/03 nfl/cognovis: with delete term functionality
 
 foreach required_param {glossar_id contact_id searchterm} {
     if {![info exists $required_param]} {
@@ -24,6 +25,8 @@ set glossar_info [db_1row get_glossar_info { }]
 set glossar_language [category::get_name $source_category_id]
 set glossar_target_lan [category::get_name $target_category_id]
 set user_id [ad_conn user_id]
+#set return_url [ad_conn url]
+set return_url [export_vars -base [ad_conn url] {glossar_id contact_id}]
 set locale [lang::user::site_wide_locale -user_id $user_id]
 set time_format "[lc_get -locale $locale d_fmt] %X"
 set freelancer_p [group::member_p -user_id $user_id -group_name Freelancer]
@@ -52,7 +55,7 @@ if {[empty_string_p $user_id]} {
 
 
 if {$format == "normal"} {
-    set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creation_user {} edit {} history {}]
+    set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creation_user {} edit {} delete {} history {}]
 } else {
     set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creator_name {}] 
 }
@@ -191,6 +194,10 @@ template::list::create \
 	    label " "
 	    display_template {<a href="@gl_term.edit_url@"><img border="0" src="/shared/images/Edit16.gif" alt="#acs-kernel.common_Edit#" /></a>}
 	}
+        delete {
+            label " "
+            display_template {<a href="@gl_term.delete_url@"><img border="0" src="/shared/images/Delete16.gif" alt="\#acs-kernel.common_Delete\#" /></a>}
+        }   
 	history {
 	    label " "
 	    display_template {<a href="@gl_term.history_url@">#glossar.glossar_term_history#</a>}
@@ -270,7 +277,7 @@ template::list::create \
 
 set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page owner_id customer_id contact_id }] 
 
-db_multirow  -extend {gl_translation_p creator_url creator_name edit_url history_url owner} gl_term gl_term  {} {
+db_multirow  -extend {gl_translation_p creator_url creator_name edit_url delete_url history_url owner} gl_term gl_term  {} {
     if {![empty_string_p $target_text]} {
 	set gl_translation_p 1
     } else {
@@ -292,6 +299,7 @@ db_multirow  -extend {gl_translation_p creator_url creator_name edit_url history
     set last_modified [lc_time_fmt $last_modified $time_format]
     set creator_url [acs_community_member_url -user_id $creation_user]
     set edit_url [export_vars -base glossar-term-add {glossar_id term_id contact_id}]
+    set delete_url [export_vars -base glossar-term-delete {term_id return_url}]
     set history_url [export_vars -base glossar-term-rev-list {glossar_id term_id contact_id}]
 } if_no_rows {}
 

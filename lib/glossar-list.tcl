@@ -34,6 +34,8 @@ if {![info exists format]} {
 set user_id [ad_conn user_id]
 set contact_id $owner_id
 
+set return_url [export_vars -base [ad_conn url] {contact_id}] 
+
 if {[empty_string_p $user_id]} {
     ad_redirect_for_registration
 }
@@ -86,6 +88,8 @@ set return_url [ad_conn url]
 
 if [permission::permission_p -object_id $owner_id -privilege admin] {
 
+    # solution changend, this is old code... set row_list [list checkbox {} title {} source_category {} target_category {} glossar_edit {} glossar_delete {} glossar_files {}]
+ 
 } elseif {[permission::permission_p -object_id $owner_id -privilege create] || [group::member_p -group_name Employees]} {
 
     set user_perm create
@@ -128,7 +132,7 @@ if { $no_perm_p == 0} {
 		label {[_ glossar.glossar_target_category]}
 	    }
 	    glossar_edit {
-		display_template {<a href="@gl_glossar.edit_url@"><img border="0" src="/shared/images/Edit16.gif" alt="#acs-kernel.common_Edit#" /></a>}
+		display_template {@gl_glossar.edit_delete_link;noquote@}
 	    }	
 	    glossar_perm {
 		display_template {<a href="@gl_glossar.permission_url@"><img border="0" src="/glossar/resources/padlock.gif" alt="#glossar.set_permissions#" /></a>}
@@ -180,7 +184,7 @@ if { $no_perm_p == 0} {
 
 
 
-    db_multirow -extend {source_category target_category gl_translation_p files_url edit_url permission_url title_url target_url files_count} gl_glossar gl_glossar  {} {
+    db_multirow -extend {source_category target_category gl_translation_p files_url edit_delete_link permission_url title_url target_url files_count} gl_glossar gl_glossar  {} {
 	if {![empty_string_p $target_category_id]} {
 	    set gl_translation_p 1
 	} else {
@@ -191,9 +195,16 @@ if { $no_perm_p == 0} {
 	set target_category "[category::get_name $target_category_id]"
 	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id contact_id}]"
 	set edit_url "[export_vars -base "${base_url}/glossar-edit" {glossar_id contact_id}]"
+	set delete_url "[export_vars -base "${base_url}/glossar-delete" {glossar_id return_url}]"  
 	set permission_url "[export_vars -base "/permissions/one" {{object_id $glossar_id} {application_url [ad_return_url]}}]"
 	set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id contact_id}]"
 	set target_url "/contacts/$organization_id"
+	set edit_delete_link "<pre><a href=\"$edit_url\"><img border=\"0\" src=\"/shared/images/Edit16.gif\" alt=\"#acs-kernel.common_Edit#\" /></a>"
+        if [permission::permission_p -object_id $owner_id -privilege admin] { 
+	    append edit_delete_link " <a href=\"$delete_url\"><img border=\"0\" src=\"/shared/images/Delete16.gif\" alt=\"\#acs-kernel.common_Delete\#\" /></a></pre>"
+	}  else {
+	    append edit_delete_link "</pre>"
+	}
     } if_no_rows {
     }
 }
