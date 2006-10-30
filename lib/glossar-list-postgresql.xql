@@ -37,7 +37,8 @@
       AND ((acs_rels.object_id_one = organizations.organization_id AND acs_rels.object_id_two = :owner_id)
       OR (acs_rels.object_id_two = organizations.organization_id AND acs_rels.object_id_one = :owner_id))
       AND acs_rels.rel_type = 'contact_rels_etat'
-      ORDER BY query_number asc,
+      ORDER BY
+      -- query_number asc,
       [template::list::orderby_clause -name gl_glossar]
     </querytext>
 </fullquery>

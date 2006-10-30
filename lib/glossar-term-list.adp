@@ -1,7 +1,8 @@
 <table width="100%">
 <tr>
+   <if @layout_for_printing@ not eq 1>
    <td valign="top">
-	<form method="ge"t name="term-list-search"  action="glossar-term-list">
+	<form method="get" name="term-list-search"  action="glossar-term-list">
 	  #glossar.Search#:<br />
 	  <input type="text" name="searchterm" value="@searchterm@" size="12" />
 	 @hidden_vars;noquote@ 
@@ -10,6 +11,7 @@
    </td>
    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
    <td>
+   </if>
 	<table>
 	<tr>
 	    <td><b>#glossar.glossar_single_category#:</b></td>

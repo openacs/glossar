@@ -7,6 +7,7 @@
 # @arch-tag: beb88796-955e-4cbd-af5e-3919597c7ed1
 # @cvs-id $Id$
 # 2006/08/03 nfl/cognovis: with delete term functionality
+# 2006/08/14 nfl/cognovis: new alternative layout for printing
 
 foreach required_param {glossar_id contact_id searchterm} {
     if {![info exists $required_param]} {
@@ -17,6 +18,10 @@ foreach optional_param {page orderby format customer_id} {
     if {![info exists $optional_param]} {
 	set $optional_param {}
     }
+}
+
+if {![info exists layout_for_printing]} {
+  set layout_for_printing 0
 }
 
 # Get glossar info
@@ -43,9 +48,18 @@ if {![info exists format]} {
 }
 
 if {![info exists page_size]} {
-    set page_size "25"
+    #set page_size "25"
+    # 2006/08/14 the line above was never used, because 10 was hard coded below! (nfl)
+    #2006/09/26 set page_size 10
+    # 2006/09/26 Customer want's it all on one page. So trick it like the print version.
+    set page_size 10000000
 }
-
+if {$layout_for_printing==1} {
+    set page_size ""
+    # no pagination when printing (layout)
+    set page_size 10000000
+    # okay, trick it... 10 million entries per page... ;-)
+}
 
 
 
@@ -53,8 +67,9 @@ if {[empty_string_p $user_id]} {
     ad_redirect_for_registration
 }
 
+set edit_p [permission::permission_p -object_id $glossar_id -party_id $user_id -privilege create]
 
-if {$format == "normal"} {
+if {$edit_p} {
     set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creation_user {} edit {} delete {} history {}]
 } else {
     set row_list [list source_text {} target_text {} dont_text {} description {} owner {} last_modified {} creator_name {}] 
@@ -81,15 +96,22 @@ if {![empty_string_p $target_category_id]} {
 
     set target_where_clause "AND g.target_category_id = :target_category_id"
     set source_text_lable [_ glossar.glossar_source_text]
-    set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id contact_id}] "[_ glossar.glossar_New_term]" ]
+    if {$layout_for_printing!=1} {
+	set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id contact_id}] "[_ glossar.glossar_New_term]" ]
+    } else {
+	set actions ""
+    }
 
 } else {
 
     set target_where_clause ""
     set row_list [lreplace $row_list 2 3]
     set source_text_lable [_ glossar.glossar_singel_text]
-    set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id contact_id}] "[_ glossar.glossar_New_term]"]
-
+    if {$layout_for_printing!=1} {
+	set actions [list "[_ glossar.glossar_New_term]" [export_vars -base glossar-term-add {glossar_id contact_id}] "[_ glossar.glossar_New_term]"]
+    } else {
+	set actions ""
+    }
 }
 
 # get glossars with matching languages that belongs to the relationships
@@ -105,12 +127,16 @@ if {[permission::permission_p -object_id $glossar_id -privilege admin]} {
     if {$format == "normal"} {
 	
 	set where_format " AND  "
-	lappend actions "[_ glossar.glossar_Format_CSV]" [export_vars -base glossar-term-list {glossar_id contact_id {format csv}}] "[_ glossar.glossar_New2]"
+	if {$layout_for_printing!=1} {
+	    lappend actions "[_ glossar.glossar_Format_CSV]" [export_vars -base glossar-term-list {glossar_id contact_id {format csv}}] "[_ glossar.glossar_New2]"
+	}
 
     } else {
 
 	set where_format "   "
-	lappend actions "[_ glossar.glossar_Format_Normal]" [export_vars -base glossar-term-list {glossar_id contact_id {format normal}}] "[_ glossar.glossar_New2]"
+	if {$layout_for_printing!=1} {
+	    lappend actions "[_ glossar.glossar_Format_Normal]" [export_vars -base glossar-term-list {glossar_id contact_id {format normal}}] "[_ glossar.glossar_New2]"
+	}
     }
 
 } elseif {[permission::permission_p -object_id $glossar_id -privilege create]} {
@@ -192,15 +218,15 @@ template::list::create \
 	} 
 	edit {
 	    label " "
-	    display_template {<a href="@gl_term.edit_url@"><img border="0" src="/shared/images/Edit16.gif" alt="#acs-kernel.common_Edit#" /></a>}
+	    display_template {<if @gl_term.layout_for_printer@ not eq 1><a href="@gl_term.edit_url@"><img border="0" src="/shared/images/Edit16.gif" alt="#acs-kernel.common_Edit#" /></a></if>}
 	}
         delete {
             label " "
-            display_template {<a href="@gl_term.delete_url@"><img border="0" src="/shared/images/Delete16.gif" alt="\#acs-kernel.common_Delete\#" /></a>}
-        }   
+            display_template {<if @gl_term.layout_for_printer@ not eq 1><a href="@gl_term.delete_url@"><img border="0" src="/shared/images/Delete16.gif" alt="\#acs-kernel.common_Delete\#" /></a></if>}
+        }
 	history {
 	    label " "
-	    display_template {<a href="@gl_term.history_url@">#glossar.glossar_term_history#</a>}
+	    display_template {<if @gl_term.layout_for_printer@ not eq 1><a href="@gl_term.history_url@">#glossar.glossar_term_history#</a></if>}
 	}
     } -actions $actions -sub_class narrow \
     -orderby_name orderby \
@@ -256,7 +282,7 @@ template::list::create \
 	    where_clause $search_where_clause
 	}
     } -page_size_variable_p 0 \
-    -page_size 10 \
+    -page_size $page_size \
     -page_flush_p 1 \
     -page_query_name gl_term_page \
     -formats {
@@ -277,7 +303,7 @@ template::list::create \
 
 set hidden_vars [export_vars -form {glossar_id gl_translation_p orderby format page owner_id customer_id contact_id }] 
 
-db_multirow  -extend {gl_translation_p creator_url creator_name edit_url delete_url history_url owner} gl_term gl_term  {} {
+db_multirow  -extend {gl_translation_p creator_url creator_name edit_url delete_url history_url owner layout_for_printer} gl_term gl_term  {} {
     if {![empty_string_p $target_text]} {
 	set gl_translation_p 1
     } else {
@@ -294,13 +320,14 @@ db_multirow  -extend {gl_translation_p creator_url creator_name edit_url delete_
     } else {
 	set owner ""
     }
-    
+
     set creator_name "$first_names $last_name"
     set last_modified [lc_time_fmt $last_modified $time_format]
     set creator_url [acs_community_member_url -user_id $creation_user]
     set edit_url [export_vars -base glossar-term-add {glossar_id term_id contact_id}]
     set delete_url [export_vars -base glossar-term-delete {term_id return_url}]
     set history_url [export_vars -base glossar-term-rev-list {glossar_id term_id contact_id}]
+    set layout_for_printer $layout_for_printing
 } if_no_rows {}
 
 template::list::write_output -name gl_term

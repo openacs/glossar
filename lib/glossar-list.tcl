@@ -154,8 +154,8 @@ if { $no_perm_p == 0} {
 	    }
 	    title {
 		label {[_ glossar.glossar_title]}
-		orderby_desc {sort_key asc , gl_title desc}
-		orderby_asc {sort_key asc, gl_title asc}
+		orderby_desc {gl_title desc}
+		orderby_asc {gl_title asc}
 		default_direction asc
 	    }
 	}  -orderby_name orderby \
@@ -195,16 +195,18 @@ if { $no_perm_p == 0} {
 	set target_category "[category::get_name $target_category_id]"
 	set title_url "[export_vars -base "${base_url}/glossar-term-list" {glossar_id contact_id}]"
 	set edit_url "[export_vars -base "${base_url}/glossar-edit" {glossar_id contact_id}]"
-	set delete_url "[export_vars -base "${base_url}/glossar-delete" {glossar_id return_url}]"  
+	set delete_url "[export_vars -base "${base_url}/glossar-delete" {glossar_id return_url}]"
+	set print_url "[export_vars -base "${base_url}/glossar-term-list-print" {glossar_id contact_id return_url}]"
 	set permission_url "[export_vars -base "/permissions/one" {{object_id $glossar_id} {application_url [ad_return_url]}}]"
 	set files_url "[export_vars -base "${base_url}/glossar-file-upload" {glossar_id contact_id}]"
 	set target_url "/contacts/$organization_id"
 	set edit_delete_link "<pre><a href=\"$edit_url\"><img border=\"0\" src=\"/shared/images/Edit16.gif\" alt=\"#acs-kernel.common_Edit#\" /></a>"
         if [permission::permission_p -object_id $owner_id -privilege admin] { 
-	    append edit_delete_link " <a href=\"$delete_url\"><img border=\"0\" src=\"/shared/images/Delete16.gif\" alt=\"\#acs-kernel.common_Delete\#\" /></a></pre>"
-	}  else {
-	    append edit_delete_link "</pre>"
+	    append edit_delete_link " <a href=\"$delete_url\"><img border=\"0\" src=\"/shared/images/Delete16.gif\" alt=\"\#acs-kernel.common_Delete\#\" /></a>"
 	}
+	append edit_delete_link " <a href=\"$print_url\"><img border=\"0\" src=\"/shared/images/print-16.png\" alt=\"\#acs-kernel.common_Print\#\" /></a>"
+	append edit_delete_link "</pre>"
+	
     } if_no_rows {
     }
 }

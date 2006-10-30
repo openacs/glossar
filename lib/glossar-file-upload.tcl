@@ -7,7 +7,7 @@
 # @arch-tag: beb88796-955e-4cbd-af5e-3919597c7ed1
 # @cvs-id $Id$
 
-foreach required_param {glossar_id} {
+foreach required_param {glossar_id contact_id} {
     if {![info exists $required_param]} {
 	return -code error "$required_param is a required parameter."
     }
@@ -42,6 +42,7 @@ set time_format "[lc_get -locale $locale d_fmt] %X"
 
 set form_elements [list {glossar_id:integer(hidden)}]
 lappend form_elements [list {upload_count:integer(hidden)}]
+lappend form_elements [list {contact_id:integer(hidden)}]
 lappend form_elements [list {orderby:text(hidden),optional}]
 set upload_number 1
 
@@ -99,9 +100,9 @@ ad_form -name upload_files -html {enctype multipart/form-data} -form $form_eleme
 } -after_submit {
     if {[exists_and_not_null upload_more]} {
 	ad_returnredirect [export_vars \
-			       -base "glossar-file-upload" -url {{upload_count 10} glossar_id}]
+			       -base "glossar-file-upload" -url {{upload_count 10} glossar_id contact_id}]
     } else {
-	ad_returnredirect "glossar-file-upload?glossar_id=$glossar_id"
+	ad_returnredirect "glossar-file-upload?glossar_id=$glossar_id&contact_id=$contact_id"
     }
     ad_script_abort
 }
@@ -112,7 +113,7 @@ template::list::create \
     -multirow "files" \
     -row_pretty_plural "[_ glossar.files]" \
     -checkbox_name checkbox \
-    -bulk_action_export_vars [list glossar_id orderby] \
+    -bulk_action_export_vars [list glossar_id orderby contact_id] \
     -bulk_actions [list \
 	"[_ glossar.Delete]" "glossar-file-delete" "[_ glossar.lt_Delete_the_selectted_]" \
 	"[_ glossar.Update]" "glossar-file-update" "[_ glossar.Update_filenames]" \
