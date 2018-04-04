@@ -1,7 +1,7 @@
 # /packages/glossar/www/admin/index.tcl
 
 ad_page_contract {
-    Glossar Administation Index Page
+    Glossar Administration Index Page
 
     @author Miguel Marin (miguelmarin@viaro.net)
     @author Viaro Networks www.viaro.net
