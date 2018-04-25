@@ -60,7 +60,7 @@ lappend form_elements [list "upload_more:text(submit),optional" [list "label" "[
 ad_form -name upload_files -html {enctype multipart/form-data} -form $form_elements -on_request {
 } -on_submit {
     set upload_number 1
-    set message [list]
+    set message {}
     while {$upload_number <= $upload_count} {
 	set file [set "upload_file${upload_number}"]
 	set title [set "upload_title${upload_number}"]
