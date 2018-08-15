@@ -3,7 +3,6 @@
 -- 
 -- @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
 -- @creation-date 2005-07-06
--- @arch-tag: 5c4aea57-93be-49c1-bb0e-97b9cc541ac0
 -- @cvs-id $Id$
 --
 
