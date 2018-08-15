@@ -3,7 +3,6 @@
 <!-- packages/glossar/lib/glossar-portlet-list.xql -->
 <!-- @author Bjoern Kiesbye (bjoern_kiesbye@web.de) -->
 <!-- @creation-date 2005-07-29 -->
-<!-- @arch-tag: 51409eb9-601b-412e-a3f3-fe4b419c9ff1 -->
 <!-- @cvs-id $Id$ -->
 
 <queryset>

@@ -3,7 +3,6 @@
 <!-- packages/glossar/lib/glossar-list-postgresql.xql -->
 <!-- @author Bjoern Kiesbye (bjoern_kiesbye@web.de) -->
 <!-- @creation-date 2005-07-09 -->
-<!-- @arch-tag: 7a2fde2f-c68e-4164-9c22-3cb9de2ac468 -->
 <!-- @cvs-id $Id$ -->
 
 <queryset>

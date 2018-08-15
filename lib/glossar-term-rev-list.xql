@@ -3,7 +3,6 @@
 <!-- packages/glossar/lib/glossar-term-rev-list.xql -->
 <!-- @author Bjoern Kiesbye (bjoern_kiesbye@web.de) -->
 <!-- @creation-date 2005-07-15 -->
-<!-- @arch-tag: f4506527-2078-479c-9c55-d6dc8f5cd5a8 -->
 <!-- @cvs-id $Id$ -->
 
 <queryset>
