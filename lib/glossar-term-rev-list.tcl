@@ -1,10 +1,8 @@
-# packages/glossar/lib/glossar-term-rev-list.tcl
 #
 # Lists all revisions of one Term
 #
 # @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
 # @creation-date 2005-07-15
-# @arch-tag: ebb70c9d-b79d-4db8-9a77-ad97244684fe
 # @cvs-id $Id$
 
 

@@ -1,10 +1,8 @@
-# packages/glossar/lib/glossar-term-list.tcl
 #
 # Lists all Terms from one Glossar
 #
 # @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
 # @creation-date 2005-07-10
-# @arch-tag: beb88796-955e-4cbd-af5e-3919597c7ed1
 # @cvs-id $Id$
 # 2006/08/03 nfl/cognovis: with delete term functionality
 # 2006/08/14 nfl/cognovis: new alternative layout for printing

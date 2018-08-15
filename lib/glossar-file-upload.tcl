@@ -1,10 +1,8 @@
-# packages/glossar/lib/glossar-term-list.tcl
 #
 # Lists all Terms from one Glossar
 #
 # @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
 # @creation-date 2005-07-10
-# @arch-tag: beb88796-955e-4cbd-af5e-3919597c7ed1
 # @cvs-id $Id$
 
 foreach required_param {glossar_id contact_id} {

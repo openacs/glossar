@@ -1,5 +1,3 @@
-# packages/glossar/tcl/glossar-procs.tcl
-
 ad_library {
     
     
@@ -7,7 +5,6 @@ ad_library {
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @author Nils Lohse (nils.lohse@cognovis.de)
     @creation-date 2005-07-06
-    @arch-tag: b4f83a02-5128-4d28-a681-b73b7ffdb205
     @cvs-id $Id$
 }
 

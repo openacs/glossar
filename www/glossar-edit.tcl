@@ -1,12 +1,9 @@
-# packages/glossar/www/glossar-edit.tcl
-
 ad_page_contract {
     
     Change a Glossar
     
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-09
-    @arch-tag: 5ca20456-b64a-46c0-8adf-f03a8b28a081
     @cvs-id $Id$
 } {
     glossar_id:notnull

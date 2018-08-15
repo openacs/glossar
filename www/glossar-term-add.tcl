@@ -1,12 +1,9 @@
-# packages/glossar/www/glossar-term-add.tcl
-
 ad_page_contract {
     
     Create a new term
     
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-09
-    @arch-tag: 63950c73-d43a-4ed2-934c-46917d0798f8
     @cvs-id $Id$
 } {
     glossar_id:notnull

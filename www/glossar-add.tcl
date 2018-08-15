@@ -1,12 +1,9 @@
-# packages/glossar/www/glossar-add.tcl
-
 ad_page_contract {
     
     Adding a Glossar to a Eta/User
     
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-09
-    @arch-tag: 10d0e2ec-fadc-4495-9d10-faa00b8eb5d3
     @cvs-id $Id$
 } {
     owner_id:notnull

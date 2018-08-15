@@ -1,12 +1,9 @@
-# packages/glossar/www/glossar-term-edit.tcl
-
 ad_page_contract {
     
     Editing a Term
     
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-09
-    @arch-tag: eb1da800-8bcd-4f10-8ccc-12c31b902614
     @cvs-id $Id$
 } {
     glossar_id:notnull

@@ -4,7 +4,6 @@
 #
 # @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
 # @creation-date 2005-07-09
-# @arch-tag: 4760fbcd-c60f-45c9-9ac2-735f3ddae15d
 # @cvs-id $Id$
 
 foreach required_param {owner_id} {

@@ -1,12 +1,9 @@
-# packages/glossar/tcl/glossar-install-procs.tcl
-
 ad_library {
     
     
     
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-13
-    @arch-tag: 52912475-f200-4cac-a89f-c4db0e7df38c
     @cvs-id $Id$
 }
 

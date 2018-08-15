@@ -1,7 +1,7 @@
 <master>
   <property name="title">#glossar.Glossars#</property>
   <property name="context">#glossar.index#</property>
-<if @admin_p@>
+<if @admin_p;literal@ true>
     <div align="right"><a href="admin/">#glossar.Glossar_Administration#</a></div>  
 </if>
 
