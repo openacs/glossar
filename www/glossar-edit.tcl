@@ -1,7 +1,7 @@
 ad_page_contract {
-    
+
     Change a Glossar
-    
+
     @author Bjoern Kiesbye (bjoern_kiesbye@web.de)
     @creation-date 2005-07-09
     @cvs-id $Id$
@@ -34,20 +34,20 @@ ad_form -name glossar-edit -export {contact_id} -form {
 
 if {$translation_p == "t"} {
     ad_form -extend -name glossar-edit -form {
-    
-	{source_category_id:integer(category) {label "[_ glossar.glossar_source_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t} {category_mapped $source_cat_id}}
 
-	{target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id $target_tree_id} {category_assign_single_p t} {category_require_category_p t} {category_mapped $target_cat_id}}
+        {source_category_id:integer(category) {label "[_ glossar.glossar_source_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t} {category_mapped $source_cat_id}}
 
-    } 
+        {target_category_id:integer(category) {label "[_ glossar.glossar_target_category]"} {category_tree_id $target_tree_id} {category_assign_single_p t} {category_require_category_p t} {category_mapped $target_cat_id}}
+
+    }
 
 } else {
     ad_form -extend -name glossar-edit -form {
 
-	{source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id} {category_assign_single_p t} {category_require_category_p t} {category_mapped $source_cat_id}}
+        {source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id} {category_assign_single_p t} {category_require_category_p t} {category_mapped $source_cat_id}}
 
-	{target_category_id:text(hidden) {value ""}}
-    }  
+        {target_category_id:text(hidden) {value ""}}
+    }
 }
 
 
@@ -65,11 +65,11 @@ set options [concat [list [list "" ""]] $options]
 
 if {[llength $options] > 1} {
     ad_form -extend -name glossar-edit -form {
-	{target_id:integer(select),optional {label $target_label} {options $options}}
+        {target_id:integer(select),optional {label $target_label} {options $options}}
     }
 } else {
     ad_form -extend -name glossar-edit -form {
-	{target_id:text(hidden) {value ""}}
+        {target_id:text(hidden) {value ""}}
     }
 }
 
@@ -80,10 +80,10 @@ ad_form -extend -name glossar-edit -form {
 
     set organization_p [organization::organization_p -party_id $owner_id]
     if {!$organization_p} {
-	db_1row get_rel_id {}
+        db_1row get_rel_id {}
     }
     if {[exists_and_not_null rel_target_id]} {
-	set target_id $rel_target_id
+        set target_id $rel_target_id
     }
 
 }  -edit_data {
@@ -91,7 +91,7 @@ ad_form -extend -name glossar-edit -form {
     set old_owner_id $owner_id
 
     if {![empty_string_p $target_id]} {
-	db_1row get_rel_id2 {}
+        db_1row get_rel_id2 {}
     }
 
     glossar::glossary::edit -glossar_item_id $glossar_id -title $title -description $description -source_category_id $source_category_id  -target_category_id $target_category_id -owner_id $owner_id -etat_id ""
@@ -101,3 +101,9 @@ ad_form -extend -name glossar-edit -form {
     ad_returnredirect "/contacts/$contact_id"
     ad_script_abort
 }
+
+# Local variables:
+#    mode: tcl
+#    tcl-indent-level: 4
+#    indent-tabs-mode: nil
+# End:
