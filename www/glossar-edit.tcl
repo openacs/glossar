@@ -46,7 +46,7 @@ if {$translation_p == "t"} {
 
 	{source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id} {category_assign_single_p t} {category_require_category_p t} {category_mapped $source_cat_id}}
 
-	{target_category_id:text(hidden) {value "[db_null]"}}
+	{target_category_id:text(hidden) {value ""}}
     }  
 }
 

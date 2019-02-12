@@ -63,7 +63,7 @@ if {$gl_translation_p == 1} {
     
 	{source_category_id:integer(category) {label "[_ glossar.glossar_single_category]"} {category_tree_id $source_tree_id}  {category_assign_single_p t} {category_require_category_p t}}
 
-	{target_category_id:text(hidden) {value "[db_null]"}}
+	{target_category_id:text(hidden) {value ""}}
 
     }  
 
@@ -108,7 +108,7 @@ ad_form -extend -name glossar-add \
 } -new_data {
     
     if {![info exists target_category_id]} {
-	set target_category_id [db_null]
+	set target_category_id ""
     }
     
     glossar::glossary::new -owner_id $owner_id -title "$title" -description "$description" -source_category_id $source_category_id -target_category_id $target_category_id -package_id $package_id -etat_id ""

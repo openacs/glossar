@@ -23,7 +23,7 @@ ad_proc -public glossar::glossary::new {
     {-package_id ""}
     {-title ""}
     {-description ""}
-    {-target_category_id [db_null]}
+    {-target_category_id ""}
     {-etat_id ""}
 
 } {
